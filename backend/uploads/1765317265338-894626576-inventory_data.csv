@@ -1,0 +1,16 @@
+item,quantity,reorder_level,unit_cost,category
+Chicken,15,10,400,Meat
+Paneer,8,5,200,Dairy
+Rice,40,20,80,Grains
+Tomatoes,12,8,50,Vegetables
+Onions,20,15,30,Vegetables
+Cream,4,3,200,Dairy
+Butter,3,4,550,Dairy
+Spices Mix,6,5,400,Spices
+Oil,5,4,300,Cooking
+Flour,25,15,40,Grains
+Curd,6,4,60,Dairy
+Vegetables Mix,10,8,80,Vegetables
+Bread,0,5,30,Bakery
+Milk,2,5,50,Dairy
+Sugar,8,6,45,Essentials

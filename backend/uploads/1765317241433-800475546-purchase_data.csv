@@ -1,0 +1,21 @@
+date,item,amount,supplier,quantity
+2024-12-01,Chicken,8000,Fresh Meats Co,20
+2024-12-01,Paneer,3000,Dairy Fresh,15
+2024-12-01,Vegetables,2500,Green Farm,25
+2024-12-01,Rice,4000,Grain Suppliers,50
+2024-12-02,Cream,1500,Dairy Fresh,10
+2024-12-02,Spices,2000,Spice World,5
+2024-12-02,Oil,1800,Cooking Essentials,6
+2024-12-03,Flour,1200,Grain Suppliers,30
+2024-12-03,Butter,2200,Dairy Fresh,8
+2024-12-03,Tomatoes,800,Green Farm,20
+2024-12-04,Chicken,8500,Fresh Meats Co,22
+2024-12-04,Onions,600,Green Farm,30
+2024-12-04,Curd,900,Dairy Fresh,15
+2024-12-05,Paneer,3500,Dairy Fresh,18
+2024-12-05,Vegetables,2800,Green Farm,28
+2024-12-06,Rice,4500,Grain Suppliers,55
+2024-12-06,Chicken,9000,Fresh Meats Co,24
+2024-12-07,Spices,2200,Spice World,6
+2024-12-07,Cream,1700,Dairy Fresh,12
+2024-12-07,Oil,2000,Cooking Essentials,7

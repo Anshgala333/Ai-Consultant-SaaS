@@ -1,0 +1,109 @@
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import {
+    LayoutDashboard,
+    Upload,
+    AlertTriangle,
+    Lightbulb,
+    FlaskConical,
+    FileText,
+    Settings,
+    LogOut,
+    Menu,
+    X,
+    Users,
+    BarChart3,
+    MapPin
+} from 'lucide-react';
+import { useState } from 'react';
+import './Layout.css';
+
+const Layout = ({ children }) => {
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
+    const navItems = [
+        { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        { path: '/kpi-history', icon: BarChart3, label: 'KPI History' },
+        { path: '/upload', icon: Upload, label: 'Data Upload' },
+        { path: '/issues', icon: AlertTriangle, label: 'Issues' },
+        { path: '/recommendations', icon: Lightbulb, label: 'AI Insights' },
+        { path: '/experiments', icon: FlaskConical, label: 'Experiments' },
+        { path: '/outlets', icon: MapPin, label: 'Outlets & QR' },
+        { path: '/reports', icon: FileText, label: 'Reports' },
+    ];
+
+    if (user?.isAdmin) {
+        navItems.push({ path: '/admin', icon: Users, label: 'Admin Panel' });
+    }
+
+    return (
+        <div className="layout">
+            {/* Mobile Menu Button */}
+            <button
+                className="mobile-menu-btn"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+                {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            {/* Sidebar */}
+            <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+                <div className="sidebar-header">
+                    <div className="logo">
+                        <div className="logo-icon">AI</div>
+                        <span className="logo-text">Consultant</span>
+                    </div>
+                </div>
+
+                <nav className="sidebar-nav">
+                    {navItems.map(item => (
+                        <NavLink
+                            key={item.path}
+                            to={item.path}
+                            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                            onClick={() => setSidebarOpen(false)}
+                        >
+                            <item.icon size={20} />
+                            <span>{item.label}</span>
+                        </NavLink>
+                    ))}
+                </nav>
+
+                <div className="sidebar-footer">
+                    <div className="user-info">
+                        <div className="user-avatar">
+                            {user?.businessName?.charAt(0) || 'U'}
+                        </div>
+                        <div className="user-details">
+                            <span className="user-name">{user?.businessName || 'User'}</span>
+                            <span className="user-email">{user?.email}</span>
+                        </div>
+                    </div>
+                    <button className="logout-btn" onClick={handleLogout}>
+                        <LogOut size={18} />
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </aside>
+
+            {/* Overlay for mobile */}
+            {sidebarOpen && (
+                <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+            )}
+
+            {/* Main Content */}
+            <main className="main-content">
+                {children}
+            </main>
+        </div>
+    );
+};
+
+export default Layout;
