@@ -1,0 +1,36 @@
+date,sku,item_name,quantity,amount,category
+2024-12-01,SKU001,Butter Chicken,5,2500,Main Course
+2024-12-01,SKU002,Paneer Tikka,8,1600,Starters
+2024-12-01,SKU003,Dal Makhani,6,900,Main Course
+2024-12-01,SKU004,Naan Bread,20,400,Bread
+2024-12-01,SKU005,Biryani,10,3500,Main Course
+2024-12-02,SKU001,Butter Chicken,7,3500,Main Course
+2024-12-02,SKU002,Paneer Tikka,5,1000,Starters
+2024-12-02,SKU003,Dal Makhani,8,1200,Main Course
+2024-12-02,SKU006,Gulab Jamun,15,750,Desserts
+2024-12-02,SKU007,Lassi,12,480,Beverages
+2024-12-03,SKU001,Butter Chicken,6,3000,Main Course
+2024-12-03,SKU005,Biryani,12,4200,Main Course
+2024-12-03,SKU004,Naan Bread,25,500,Bread
+2024-12-03,SKU008,Samosa,20,600,Starters
+2024-12-03,SKU009,Chai,30,300,Beverages
+2024-12-04,SKU001,Butter Chicken,8,4000,Main Course
+2024-12-04,SKU002,Paneer Tikka,10,2000,Starters
+2024-12-04,SKU005,Biryani,15,5250,Main Course
+2024-12-04,SKU010,Raita,10,250,Sides
+2024-12-04,SKU003,Dal Makhani,7,1050,Main Course
+2024-12-05,SKU001,Butter Chicken,4,2000,Main Course
+2024-12-05,SKU005,Biryani,8,2800,Main Course
+2024-12-05,SKU002,Paneer Tikka,6,1200,Starters
+2024-12-05,SKU006,Gulab Jamun,10,500,Desserts
+2024-12-05,SKU011,Kulfi,8,400,Desserts
+2024-12-06,SKU001,Butter Chicken,9,4500,Main Course
+2024-12-06,SKU005,Biryani,14,4900,Main Course
+2024-12-06,SKU002,Paneer Tikka,12,2400,Starters
+2024-12-06,SKU003,Dal Makhani,10,1500,Main Course
+2024-12-06,SKU004,Naan Bread,30,600,Bread
+2024-12-07,SKU001,Butter Chicken,11,5500,Main Course
+2024-12-07,SKU005,Biryani,18,6300,Main Course
+2024-12-07,SKU002,Paneer Tikka,15,3000,Starters
+2024-12-07,SKU008,Samosa,25,750,Starters
+2024-12-07,SKU009,Chai,40,400,Beverages

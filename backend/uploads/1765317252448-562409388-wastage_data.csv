@@ -1,0 +1,15 @@
+date,item,quantity,value,reason
+2024-12-01,Paneer,2,400,expired
+2024-12-01,Tomatoes,3,150,spoiled
+2024-12-02,Chicken,1.5,450,expired
+2024-12-02,Cream,1,200,spoiled
+2024-12-03,Rice,2,160,spilled
+2024-12-03,Butter,0.5,275,expired
+2024-12-04,Vegetables Mix,2,180,spoiled
+2024-12-04,Curd,2,120,expired
+2024-12-05,Bread,3,90,stale
+2024-12-05,Chicken,1,300,overcooked
+2024-12-06,Paneer,1,200,burnt
+2024-12-06,Oil,0.5,100,spilled
+2024-12-07,Vegetables,2.5,200,spoiled
+2024-12-07,Milk,2,100,expired
