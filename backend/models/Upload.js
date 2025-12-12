@@ -33,6 +33,13 @@ const uploadSchema = new mongoose.Schema({
         default: {}
     },
 
+    // Custom KPI column mapping (maps custom KPI ID to column name)
+    customKpiMapping: {
+        type: Map,
+        of: String,
+        default: {}
+    },
+
     // Processing status
     status: {
         type: String,

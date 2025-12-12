@@ -60,6 +60,207 @@ const parseExcel = (filePath) => {
     return xlsx.utils.sheet_to_json(sheet);
 };
 
+// Analyze Data Quality - returns score and breakdown
+const analyzeDataQuality = (data, headers) => {
+    if (!data || data.length === 0) {
+        return { score: 0, breakdown: {}, issues: ['No data found'] };
+    }
+
+    const issues = [];
+    let totalScore = 0;
+    const breakdown = {};
+
+    // 1. Completeness Score (25 points)
+    let missingCount = 0;
+    let totalCells = 0;
+    data.forEach(row => {
+        headers.forEach(h => {
+            totalCells++;
+            if (row[h] === undefined || row[h] === null || row[h] === '') {
+                missingCount++;
+            }
+        });
+    });
+    const completenessRate = ((totalCells - missingCount) / totalCells) * 100;
+    breakdown.completeness = {
+        score: Math.round(completenessRate / 4),
+        details: `${(100 - completenessRate).toFixed(1)}% empty cells`,
+        status: completenessRate > 90 ? 'good' : completenessRate > 70 ? 'warning' : 'error'
+    };
+    totalScore += breakdown.completeness.score;
+    if (completenessRate < 80) issues.push(`${(100 - completenessRate).toFixed(0)}% of values are missing`);
+
+    // 2. Date Format Score (25 points)
+    const dateHeaders = headers.filter(h => h.toLowerCase().includes('date'));
+    let validDates = 0;
+    let totalDates = 0;
+    dateHeaders.forEach(dh => {
+        data.forEach(row => {
+            if (row[dh]) {
+                totalDates++;
+                const d = new Date(row[dh]);
+                if (!isNaN(d.getTime())) validDates++;
+            }
+        });
+    });
+    const dateRate = totalDates > 0 ? (validDates / totalDates) * 100 : 100;
+    breakdown.dateFormat = {
+        score: Math.round(dateRate / 4),
+        details: totalDates > 0 ? `${validDates}/${totalDates} valid dates` : 'No date columns',
+        status: dateRate > 95 ? 'good' : dateRate > 80 ? 'warning' : 'error'
+    };
+    totalScore += breakdown.dateFormat.score;
+    if (dateRate < 90 && totalDates > 0) issues.push(`${totalDates - validDates} invalid date formats`);
+
+    // 3. Numeric Values Score (25 points)
+    const numericHeaders = headers.filter(h => 
+        h.toLowerCase().includes('amount') || 
+        h.toLowerCase().includes('quantity') || 
+        h.toLowerCase().includes('cost') ||
+        h.toLowerCase().includes('price')
+    );
+    let validNumbers = 0;
+    let totalNumbers = 0;
+    let negativeCount = 0;
+    numericHeaders.forEach(nh => {
+        data.forEach(row => {
+            if (row[nh] !== undefined && row[nh] !== '') {
+                totalNumbers++;
+                const num = parseFloat(row[nh]);
+                if (!isNaN(num)) {
+                    validNumbers++;
+                    if (num < 0) negativeCount++;
+                }
+            }
+        });
+    });
+    const numericRate = totalNumbers > 0 ? (validNumbers / totalNumbers) * 100 : 100;
+    breakdown.numericValues = {
+        score: Math.round(numericRate / 4),
+        details: totalNumbers > 0 ? `${validNumbers}/${totalNumbers} valid numbers` : 'No numeric columns',
+        status: numericRate > 95 ? 'good' : numericRate > 80 ? 'warning' : 'error'
+    };
+    totalScore += breakdown.numericValues.score;
+    if (negativeCount > 0) issues.push(`${negativeCount} negative values found`);
+
+    // 4. Data Volume Score (25 points)
+    const volumeScore = Math.min(25, Math.round((data.length / 100) * 25));
+    breakdown.volume = {
+        score: volumeScore,
+        details: `${data.length} rows`,
+        status: data.length >= 100 ? 'good' : data.length >= 30 ? 'warning' : 'error'
+    };
+    totalScore += volumeScore;
+    if (data.length < 30) issues.push('Limited data for accurate analysis');
+
+    return {
+        score: totalScore,
+        maxScore: 100,
+        breakdown,
+        issues
+    };
+};
+
+// Compute Instant Insights from data
+const computeInstantInsights = (data, dataType) => {
+    if (!data || data.length === 0) {
+        return null;
+    }
+
+    const insights = {
+        totalRows: data.length
+    };
+
+    // Find date column
+    const headers = Object.keys(data[0]);
+    const dateCol = headers.find(h => h.toLowerCase().includes('date'));
+    
+    if (dateCol) {
+        const dates = data
+            .map(r => new Date(r[dateCol]))
+            .filter(d => !isNaN(d.getTime()))
+            .sort((a, b) => a - b);
+        
+        if (dates.length > 0) {
+            insights.dateRange = {
+                start: dates[0].toISOString().split('T')[0],
+                end: dates[dates.length - 1].toISOString().split('T')[0],
+                days: Math.ceil((dates[dates.length - 1] - dates[0]) / (1000 * 60 * 60 * 24)) + 1
+            };
+
+            // Find peak days
+            const dayCount = {};
+            dates.forEach(d => {
+                const day = d.toLocaleDateString('en-US', { weekday: 'long' });
+                dayCount[day] = (dayCount[day] || 0) + 1;
+            });
+            const sortedDays = Object.entries(dayCount).sort((a, b) => b[1] - a[1]);
+            if (sortedDays.length > 0) {
+                insights.peakDay = sortedDays[0][0];
+            }
+        }
+    }
+
+    // Find amount/value column for sales/purchase
+    if (dataType === 'sales' || dataType === 'purchase') {
+        const amountCol = headers.find(h => 
+            h.toLowerCase().includes('amount') || 
+            h.toLowerCase().includes('total') ||
+            h.toLowerCase().includes('value')
+        );
+        
+        if (amountCol) {
+            const amounts = data
+                .map(r => parseFloat(r[amountCol]))
+                .filter(n => !isNaN(n) && n > 0);
+            
+            if (amounts.length > 0) {
+                insights.totalValue = amounts.reduce((a, b) => a + b, 0);
+                insights.avgValue = insights.totalValue / amounts.length;
+                insights.maxValue = Math.max(...amounts);
+                insights.transactionCount = amounts.length;
+            }
+        }
+    }
+
+    // For wastage data
+    if (dataType === 'wastage') {
+        const qtyCol = headers.find(h => h.toLowerCase().includes('quantity') || h.toLowerCase().includes('qty'));
+        if (qtyCol) {
+            const quantities = data
+                .map(r => parseFloat(r[qtyCol]))
+                .filter(n => !isNaN(n));
+            
+            if (quantities.length > 0) {
+                insights.totalWasted = quantities.reduce((a, b) => a + b, 0);
+                insights.wasteInstances = quantities.length;
+            }
+        }
+    }
+
+    // Category breakdown
+    const categoryCol = headers.find(h => 
+        h.toLowerCase().includes('category') || 
+        h.toLowerCase().includes('type') ||
+        h.toLowerCase().includes('item')
+    );
+    if (categoryCol) {
+        const categories = {};
+        data.forEach(r => {
+            const cat = r[categoryCol];
+            if (cat) categories[cat] = (categories[cat] || 0) + 1;
+        });
+        insights.uniqueCategories = Object.keys(categories).length;
+        insights.topCategories = Object.entries(categories)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3)
+            .map(([name, count]) => ({ name, count }));
+    }
+
+    return insights;
+};
+
+
 // @route   POST /api/upload
 // @desc    Upload CSV/Excel file (Module 2)
 // @access  Private
@@ -88,6 +289,12 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
         const headers = data.length > 0 ? Object.keys(data[0]) : [];
         const previewData = data.slice(0, 100);
 
+        // Compute Data Quality Score
+        const dataQuality = analyzeDataQuality(data, headers);
+
+        // Compute Instant Insights (for sales/purchase data)
+        const instantInsights = computeInstantInsights(data, dataType);
+
         // Create upload record
         const uploadRecord = await Upload.create({
             business: req.business._id,
@@ -100,7 +307,9 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
             previewData,
             status: 'mapping',
             summary: {
-                totalRows: data.length
+                totalRows: data.length,
+                dataQuality,
+                instantInsights
             }
         });
 
@@ -113,7 +322,10 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
             message: 'File uploaded successfully',
             upload: uploadRecord,
             headers,
-            previewRows: previewData.slice(0, 5)
+            previewRows: previewData.slice(0, 5),
+            customKpis: req.business.customKpis || [],
+            dataQuality,
+            instantInsights
         });
     } catch (error) {
         console.error('Upload error:', error);
@@ -126,7 +338,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 // @access  Private
 router.put('/:id/mapping', protect, async (req, res) => {
     try {
-        const { columnMapping } = req.body;
+        const { columnMapping, customKpiMapping } = req.body;
 
         const uploadRecord = await Upload.findOne({
             _id: req.params.id,
@@ -138,6 +350,12 @@ router.put('/:id/mapping', protect, async (req, res) => {
         }
 
         uploadRecord.columnMapping = new Map(Object.entries(columnMapping));
+
+        // Store custom KPI mappings if provided
+        if (customKpiMapping && Object.keys(customKpiMapping).length > 0) {
+            uploadRecord.customKpiMapping = new Map(Object.entries(customKpiMapping));
+        }
+
         uploadRecord.status = 'processing';
         await uploadRecord.save();
 

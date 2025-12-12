@@ -23,7 +23,7 @@ const businessSchema = new mongoose.Schema({
     },
     sector: {
         type: String,
-        enum: ['restaurant', 'retail', 'cafe', 'grocery', 'salon', 'gym', 'clinic', 'other'],
+        enum: ['restaurant', 'retail', 'cafe', 'grocery', 'salon', 'gym', 'clinic', 'cloud_kitchen', 'other'],
         required: true
     },
     outletCount: {
@@ -45,10 +45,51 @@ const businessSchema = new mongoose.Schema({
         customerRating: { type: Number, default: 0 }
     },
 
+    // Target KPI Goals (user's improvement targets)
+    targetMetrics: {
+        monthlyRevenue: { type: Number, default: 0 },
+        cogs: { type: Number, default: 0 },
+        staffCost: { type: Number, default: 0 },
+        estimatedWastage: { type: Number, default: 0 },
+        customerRating: { type: Number, default: 0 },
+        targetTimeline: { type: Number, default: 3 } // months to achieve targets
+    },
+
+
+    // Custom KPIs (user-defined metrics)
+    customKpis: [{
+        name: {
+            type: String,
+            required: true,
+            maxlength: 100,
+            trim: true
+        },
+        description: {
+            type: String,
+            required: true,
+            maxlength: 500,
+            trim: true
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+
     // Primary Objective Selection
     primaryObjective: {
         type: String,
-        enum: ['wastage', 'customer_experience', 'delays', 'stock_outs', 'revenue'],
+        enum: [
+            'wastage',           // restaurant, cafe, grocery, cloud_kitchen
+            'customer_experience', // all sectors
+            'delays',            // restaurant, cafe, salon, clinic, cloud_kitchen
+            'stock_outs',        // restaurant, retail, grocery
+            'revenue',           // all sectors
+            'retention',         // gym, salon (member/client retention)
+            'shrinkage',         // retail (theft/loss)
+            'engagement',        // gym (member engagement)
+            'no_shows'           // clinic (appointment no-shows)
+        ],
         default: 'wastage'
     },
 
