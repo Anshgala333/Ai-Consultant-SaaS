@@ -44,7 +44,9 @@ export const businessAPI = {
     getHealthCard: () => api.get('/business/health-card'),
     getProfile: () => api.get('/business/profile'),
     updateProfile: (data) => api.put('/business/profile', data),
-    getBenchmarks: () => api.get('/business/benchmarks')
+    getBenchmarks: () => api.get('/business/benchmarks'),
+    addOutlet: (data) => api.post('/business/outlets', data),
+    deleteOutlet: (id) => api.delete(`/business/outlets/${id}`)
 };
 
 // Upload API

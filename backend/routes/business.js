@@ -307,4 +307,60 @@ router.put('/profile', protect, async (req, res) => {
     }
 });
 
+// @route   POST /api/business/outlets
+// @desc    Add a new outlet
+// @access  Private
+router.post('/outlets', protect, [
+    body('name').notEmpty().withMessage('Outlet name is required').trim()
+], async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { name, address } = req.body;
+
+        const outlet = await Outlet.create({
+            business: req.business._id,
+            name: name.trim(),
+            address: {
+                street: address?.street || '',
+                city: address?.city || '',
+                state: address?.state || '',
+                pincode: address?.pincode || ''
+            }
+        });
+
+        res.status(201).json({
+            message: 'Outlet created successfully',
+            outlet
+        });
+    } catch (error) {
+        console.error('Add outlet error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @route   DELETE /api/business/outlets/:id
+// @desc    Delete an outlet
+// @access  Private
+router.delete('/outlets/:id', protect, async (req, res) => {
+    try {
+        const outlet = await Outlet.findOneAndDelete({
+            _id: req.params.id,
+            business: req.business._id
+        });
+
+        if (!outlet) {
+            return res.status(404).json({ message: 'Outlet not found' });
+        }
+
+        res.json({ message: 'Outlet deleted successfully' });
+    } catch (error) {
+        console.error('Delete outlet error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;
