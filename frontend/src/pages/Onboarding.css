@@ -242,3 +242,628 @@
 .step-nav .btn:only-child {
     margin-left: auto;
 }
+
+/* Benchmark Comparison Section */
+.benchmark-section {
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-lg);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+}
+
+.benchmark-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+}
+
+.benchmark-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    border-left: 4px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.benchmark-card.status-good {
+    border-left-color: var(--success);
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.benchmark-card.status-warning {
+    border-left-color: #f59e0b;
+    background: rgba(251, 191, 36, 0.05);
+}
+
+.benchmark-card.status-error {
+    border-left-color: var(--danger);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.benchmark-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+    font-size: var(--font-size-md);
+}
+
+.benchmark-values {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: var(--spacing-md);
+}
+
+.benchmark-value {
+    text-align: center;
+}
+
+.benchmark-value .value {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.benchmark-value .label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.benchmark-status {
+    text-align: center;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* Goals Section */
+.goals-section {
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.goal-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.goal-diff {
+    font-size: var(--font-size-sm);
+    color: var(--success);
+    font-weight: 500;
+}
+
+/* Sector Context Badge */
+.sector-context {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--spacing-md);
+}
+
+.sector-icon {
+    font-size: 1.5rem;
+}
+
+.sector-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sector-hint {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    border-left: 1px solid var(--border-color);
+    padding-left: var(--spacing-sm);
+}
+
+/* Benchmark Hint in Form Labels */
+.benchmark-hint {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+/* Fix Custom KPI Delete Button */
+.custom-kpi-card .btn-delete,
+.custom-kpi-header button,
+.btn-icon-only {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.custom-kpi-card .btn-delete:hover,
+.custom-kpi-header button:hover,
+.btn-icon-only:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Sector Cards in Step 1 */
+.sector-card .sector-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Sector Cards Grid */
+.sector-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+}
+
+@media (max-width: 900px) {
+    .sector-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .sector-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sector-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-height: 100px;
+}
+
+.sector-card:hover {
+    border-color: var(--accent-primary);
+    background: rgba(139, 92, 246, 0.05);
+    transform: translateY(-2px);
+}
+
+.sector-card.selected {
+    border-color: var(--accent-primary);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.sector-card-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.sector-card-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Required Field Indicator */
+.required {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+/* Placeholder Select Styling */
+.form-select.placeholder {
+    color: var(--text-muted);
+}
+
+/* Full Width Form Group */
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Outlet Card Improvements */
+.outlet-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+}
+
+.outlet-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.outlet-number {
+    font-weight: 600;
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+}
+
+/* Delete Button - Right Aligned */
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-delete:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Form Row for Side by Side */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 500px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Add Outlet Button */
+.add-outlet-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+/* Objective Card Improvements */
+.objective-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.objective-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    min-height: 140px;
+}
+
+.objective-card:hover {
+    border-color: var(--accent-primary);
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.objective-card.selected {
+    border-color: var(--accent-primary);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+.objective-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.objective-label {
+    font-weight: 600;
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.objective-desc {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.check-icon {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    color: var(--accent-primary);
+}
+
+/* Uniform Form Input Height */
+.form-input,
+.form-select {
+    height: 44px;
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+/* Disabled Select */
+.form-select:disabled {
+    background-color: var(--bg-tertiary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ========== CUSTOM KPI CARD FIXES ========== */
+.custom-kpi-section {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    text-align: left;
+}
+
+.custom-kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Custom KPI Header - Input + Delete Button Right-Aligned */
+.custom-kpi-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.custom-kpi-header .kpi-name-input {
+    flex: 1;
+}
+
+/* Remove KPI Button - Properly Styled */
+.remove-kpi-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.remove-kpi-btn:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* KPI Description Textarea */
+.kpi-desc-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.char-count {
+    display: block;
+    text-align: right;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+/* ========== INPUT FIXES ========== */
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* Goals section inputs - prevent text cutoff */
+.goals-grid .form-input,
+.goals-grid .form-select {
+    width: 100%;
+    min-width: 0;
+    font-size: var(--font-size-sm);
+}
+
+/* Ensure placeholders don't get cut off */
+.form-input::placeholder {
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Section titles consistent */
+.section-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.section-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Add KPI Button */
+.add-kpi-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+/* ========== STEP 5 SUMMARY STYLES ========== */
+.final-step .summary-card {
+    text-align: left;
+    padding: var(--spacing-xl);
+}
+
+.summary-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.summary-sector-icon {
+    font-size: 3rem;
+}
+
+.summary-header h4 {
+    margin: 0;
+    font-size: var(--font-size-xl);
+}
+
+.summary-header .summary-sector {
+    margin: var(--spacing-xs) 0 0;
+    color: var(--text-muted);
+}
+
+.summary-section {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.summary-section-title {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin: 0 0 var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.summary-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.summary-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--spacing-sm);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+}
+
+.metric-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.metric-value.success {
+    color: var(--success);
+}
+
+/* Summary KPIs */
+.summary-kpis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.summary-kpi-tag {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    color: var(--accent-primary);
+}
+
+/* Summary Outlets */
+.summary-outlets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.summary-outlet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+}
+
+.outlet-name {
+    font-weight: 500;
+}
+
+.outlet-location {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}

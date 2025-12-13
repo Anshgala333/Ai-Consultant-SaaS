@@ -22,7 +22,7 @@ router.put('/onboarding', protect, [
             business.revenueRange = data.revenueRange || business.revenueRange;
         }
 
-        // Step 2: Baseline KPI inputs
+        // Step 2: Baseline KPI inputs + Target Goals
         if (step === 2) {
             business.baselineMetrics = {
                 monthlyRevenue: data.monthlyRevenue || 0,
@@ -31,6 +31,57 @@ router.put('/onboarding', protect, [
                 estimatedWastage: data.estimatedWastage || 0,
                 customerRating: data.customerRating || 0
             };
+
+            // Save target goals if provided
+            if (data.targetMetrics) {
+                business.targetMetrics = {
+                    monthlyRevenue: data.targetMetrics.monthlyRevenue || data.monthlyRevenue || 0,
+                    cogs: data.targetMetrics.cogs || data.cogs || 0,
+                    staffCost: data.targetMetrics.staffCost || data.staffCost || 0,
+                    estimatedWastage: data.targetMetrics.estimatedWastage || data.estimatedWastage || 0,
+                    customerRating: data.targetMetrics.customerRating || data.customerRating || 0,
+                    targetTimeline: data.targetMetrics.targetTimeline || 3
+                };
+            }
+
+            // Handle custom KPIs
+            if (data.customKpis && Array.isArray(data.customKpis)) {
+                // Validate max 10 custom KPIs
+                if (data.customKpis.length > 10) {
+                    return res.status(400).json({
+                        message: 'Maximum 10 custom KPIs allowed'
+                    });
+                }
+
+                // Validate each custom KPI
+                const validatedKpis = [];
+                for (const kpi of data.customKpis) {
+                    // Skip empty KPIs (in case user adds but doesn't fill)
+                    if (!kpi.name || !kpi.description) {
+                        continue;
+                    }
+
+                    // Validate string lengths
+                    if (kpi.name.trim().length === 0 || kpi.name.length > 100) {
+                        return res.status(400).json({
+                            message: 'Custom KPI name must be between 1 and 100 characters'
+                        });
+                    }
+
+                    if (kpi.description.trim().length === 0 || kpi.description.length > 500) {
+                        return res.status(400).json({
+                            message: 'Custom KPI description must be between 1 and 500 characters'
+                        });
+                    }
+
+                    validatedKpis.push({
+                        name: kpi.name.trim(),
+                        description: kpi.description.trim()
+                    });
+                }
+
+                business.customKpis = validatedKpis;
+            }
         }
 
         // Step 3: Primary objective selection
@@ -38,13 +89,21 @@ router.put('/onboarding', protect, [
             business.primaryObjective = data.primaryObjective || 'wastage';
         }
 
-        // Step 4: Create outlets
+        // Step 4: Create outlets (filter out invalid ones)
         if (step === 4 && data.outlets) {
-            for (const outletData of data.outlets) {
+            // Filter out outlets without name (required field)
+            const validOutlets = data.outlets.filter(o => o.name && o.name.trim());
+
+            for (const outletData of validOutlets) {
                 await Outlet.create({
                     business: business._id,
-                    name: outletData.name,
-                    address: outletData.address || {}
+                    name: outletData.name.trim(),
+                    address: {
+                        city: outletData.address?.city || '',
+                        state: outletData.address?.state || '',
+                        street: outletData.address?.street || '',
+                        pincode: outletData.address?.pincode || ''
+                    }
                 });
             }
         }
@@ -71,6 +130,78 @@ router.put('/onboarding', protect, [
     }
 });
 
+// Industry benchmarks by sector (average metrics)
+const INDUSTRY_BENCHMARKS = {
+    restaurant: {
+        estimatedWastage: 8,
+        customerRating: 4.2,
+        cogsPercentage: 32,
+        staffCostPercentage: 28
+    },
+    retail: {
+        estimatedWastage: 5,
+        customerRating: 4.0,
+        cogsPercentage: 55,
+        staffCostPercentage: 15
+    },
+    cafe: {
+        estimatedWastage: 10,
+        customerRating: 4.3,
+        cogsPercentage: 28,
+        staffCostPercentage: 30
+    },
+    grocery: {
+        estimatedWastage: 6,
+        customerRating: 3.8,
+        cogsPercentage: 70,
+        staffCostPercentage: 12
+    },
+    salon: {
+        estimatedWastage: 3,
+        customerRating: 4.5,
+        cogsPercentage: 15,
+        staffCostPercentage: 45
+    },
+    gym: {
+        estimatedWastage: 2,
+        customerRating: 4.1,
+        cogsPercentage: 10,
+        staffCostPercentage: 40
+    },
+    clinic: {
+        estimatedWastage: 4,
+        customerRating: 4.4,
+        cogsPercentage: 25,
+        staffCostPercentage: 35
+    },
+    other: {
+        estimatedWastage: 5,
+        customerRating: 4.0,
+        cogsPercentage: 40,
+        staffCostPercentage: 25
+    }
+};
+
+// @route   GET /api/business/benchmarks
+// @desc    Get industry benchmarks for business sector
+// @access  Private
+router.get('/benchmarks', protect, async (req, res) => {
+    try {
+        const business = await Business.findById(req.business._id);
+        const sector = business.sector || 'other';
+        const benchmarks = INDUSTRY_BENCHMARKS[sector] || INDUSTRY_BENCHMARKS.other;
+
+        res.json({
+            sector,
+            benchmarks,
+            allSectors: INDUSTRY_BENCHMARKS
+        });
+    } catch (error) {
+        console.error('Benchmarks error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 // @route   GET /api/business/health-card
 // @desc    Get business health card (Module 1)
 // @access  Private
@@ -80,23 +211,48 @@ router.get('/health-card', protect, async (req, res) => {
         business.calculateHealthScore();
         await business.save();
 
+        const sector = business.sector || 'other';
+        const benchmarks = INDUSTRY_BENCHMARKS[sector] || INDUSTRY_BENCHMARKS.other;
+
+        // Calculate comparison to benchmarks
+        const comparison = {
+            wastage: {
+                current: business.baselineMetrics.estimatedWastage,
+                benchmark: benchmarks.estimatedWastage,
+                target: business.targetMetrics?.estimatedWastage || benchmarks.estimatedWastage,
+                status: business.baselineMetrics.estimatedWastage <= benchmarks.estimatedWastage ? 'good' :
+                    business.baselineMetrics.estimatedWastage <= benchmarks.estimatedWastage * 1.2 ? 'warning' : 'critical'
+            },
+            rating: {
+                current: business.baselineMetrics.customerRating,
+                benchmark: benchmarks.customerRating,
+                target: business.targetMetrics?.customerRating || benchmarks.customerRating,
+                status: business.baselineMetrics.customerRating >= benchmarks.customerRating ? 'good' :
+                    business.baselineMetrics.customerRating >= benchmarks.customerRating * 0.9 ? 'warning' : 'critical'
+            }
+        };
+
         const healthCard = {
             businessName: business.businessName,
             sector: business.sector,
             healthScore: business.healthScore,
             baselineMetrics: business.baselineMetrics,
+            targetMetrics: business.targetMetrics,
+            benchmarks,
+            comparison,
             primaryObjective: business.primaryObjective,
             status: business.healthScore >= 70 ? 'healthy' :
                 business.healthScore >= 40 ? 'needs_attention' : 'critical',
             recommendations: []
         };
 
-        // Add quick recommendations based on metrics
-        if (business.baselineMetrics.estimatedWastage > 15) {
-            healthCard.recommendations.push('High wastage detected - consider inventory optimization');
+        // Add quick recommendations based on metrics and benchmarks
+        if (business.baselineMetrics.estimatedWastage > benchmarks.estimatedWastage) {
+            const diff = business.baselineMetrics.estimatedWastage - benchmarks.estimatedWastage;
+            healthCard.recommendations.push(`Wastage ${diff.toFixed(1)}% above industry average - consider inventory optimization`);
         }
-        if (business.baselineMetrics.customerRating < 3.5) {
-            healthCard.recommendations.push('Customer rating below average - review service quality');
+        if (business.baselineMetrics.customerRating < benchmarks.customerRating) {
+            healthCard.recommendations.push(`Rating below industry average (${benchmarks.customerRating}) - review service quality`);
         }
 
         res.json(healthCard);

@@ -43,7 +43,8 @@ export const businessAPI = {
     updateOnboarding: (data) => api.put('/business/onboarding', data),
     getHealthCard: () => api.get('/business/health-card'),
     getProfile: () => api.get('/business/profile'),
-    updateProfile: (data) => api.put('/business/profile', data)
+    updateProfile: (data) => api.put('/business/profile', data),
+    getBenchmarks: () => api.get('/business/benchmarks')
 };
 
 // Upload API
@@ -51,7 +52,10 @@ export const uploadAPI = {
     uploadFile: (formData) => api.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
     }),
-    saveMapping: (id, mapping) => api.put(`/upload/${id}/mapping`, { columnMapping: mapping }),
+    saveMapping: (id, mapping, customKpiMapping = {}) => api.put(`/upload/${id}/mapping`, {
+        columnMapping: mapping,
+        customKpiMapping
+    }),
     getUploads: () => api.get('/upload'),
     getUpload: (id) => api.get(`/upload/${id}`),
     getMappingSuggestions: (dataType) => api.get(`/upload/mapping-suggestions/${dataType}`)
