@@ -421,6 +421,7 @@
 }
 
 @media (max-width: 600px) {
+
     .mapping-row,
     .custom-kpi-mapping-row {
         grid-template-columns: 1fr;
@@ -517,9 +518,17 @@
     color: var(--text-muted);
 }
 
-.status-good { color: var(--success); }
-.status-warning { color: #f59e0b; }
-.status-error { color: var(--danger); }
+.status-good {
+    color: var(--success);
+}
+
+.status-warning {
+    color: #f59e0b;
+}
+
+.status-error {
+    color: var(--danger);
+}
 
 .quality-issues {
     display: flex;
@@ -572,13 +581,13 @@
     border-radius: var(--radius-md);
 }
 
-.insight-item > svg {
+.insight-item>svg {
     color: var(--accent-primary);
     flex-shrink: 0;
     margin-top: 2px;
 }
 
-.insight-item > div {
+.insight-item>div {
     display: flex;
     flex-direction: column;
 }
@@ -615,7 +624,28 @@
 
 .form-select.mapped {
     border-color: var(--success);
-    background: rgba(34, 197, 94, 0.05);
+    background-color: rgba(34, 197, 94, 0.05);
+}
+
+/* Enhanced dropdown styling for mapping section */
+.mapping-row .form-select,
+.custom-kpi-mapping-row .form-select {
+    min-height: 48px;
+    font-size: var(--font-size-sm);
+}
+
+.mapping-row .form-select option,
+.custom-kpi-mapping-row .form-select option {
+    padding: 12px 16px;
+    background-color: #1a1a28;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.mapping-row .form-select option:checked,
+.custom-kpi-mapping-row .form-select option:checked {
+    background: linear-gradient(0deg, #6366f1 0%, #6366f1 100%);
+    color: #ffffff;
 }
 
 /* Date range summary */
@@ -641,6 +671,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

@@ -1,0 +1,66 @@
+date,sku,product_name,quantity,cost_price,selling_price,category
+2024-12-01,INV001,Chicken (Raw),25.0,180,0,Meat
+2024-12-01,INV002,Mutton (Raw),12.0,550,0,Meat
+2024-12-01,INV003,Fish (Raw),15.0,420,0,Seafood
+2024-12-01,INV004,Prawns (Raw),8.0,680,0,Seafood
+2024-12-01,INV005,Paneer,18.0,320,0,Dairy
+2024-12-01,INV006,Milk,30.0,55,0,Dairy
+2024-12-01,INV007,Cream,8.0,280,0,Dairy
+2024-12-01,INV008,Yogurt,15.0,80,0,Dairy
+2024-12-01,INV009,Ghee,5.0,520,0,Dairy
+2024-12-01,INV010,Butter,4.0,450,0,Dairy
+2024-12-01,INV011,Tomatoes,40.0,40,0,Vegetables
+2024-12-01,INV012,Onions,50.0,35,0,Vegetables
+2024-12-01,INV013,Potatoes,45.0,25,0,Vegetables
+2024-12-01,INV014,Capsicum,12.0,120,0,Vegetables
+2024-12-01,INV015,Cauliflower,15.0,60,0,Vegetables
+2024-12-01,INV016,Spinach,10.0,80,0,Vegetables
+2024-12-01,INV017,Coriander,5.0,160,0,Herbs
+2024-12-01,INV018,Ginger,8.0,180,0,Vegetables
+2024-12-01,INV019,Garlic,6.0,200,0,Vegetables
+2024-12-01,INV020,Rice (Basmati),100.0,90,0,Grains
+2024-12-01,INV021,Rice (Regular),80.0,45,0,Grains
+2024-12-01,INV022,Flour (Wheat),50.0,40,0,Grains
+2024-12-01,INV023,Flour (Maida),30.0,45,0,Grains
+2024-12-01,INV024,Cooking Oil,25.0,130,0,Oils
+2024-12-01,INV025,Spices Mix,10.0,350,0,Spices
+2024-12-05,INV001,Chicken (Raw),30.0,180,0,Meat
+2024-12-05,INV002,Mutton (Raw),15.0,550,0,Meat
+2024-12-05,INV003,Fish (Raw),18.0,420,0,Seafood
+2024-12-05,INV004,Prawns (Raw),10.0,680,0,Seafood
+2024-12-05,INV005,Paneer,22.0,320,0,Dairy
+2024-12-05,INV006,Milk,35.0,55,0,Dairy
+2024-12-05,INV007,Cream,10.0,280,0,Dairy
+2024-12-05,INV008,Yogurt,18.0,80,0,Dairy
+2024-12-05,INV011,Tomatoes,45.0,40,0,Vegetables
+2024-12-05,INV012,Onions,55.0,35,0,Vegetables
+2024-12-05,INV013,Potatoes,50.0,25,0,Vegetables
+2024-12-05,INV014,Capsicum,15.0,120,0,Vegetables
+2024-12-05,INV015,Cauliflower,18.0,60,0,Vegetables
+2024-12-05,INV020,Rice (Basmati),80.0,90,0,Grains
+2024-12-05,INV021,Rice (Regular),60.0,45,0,Grains
+2024-12-10,INV001,Chicken (Raw),35.0,180,0,Meat
+2024-12-10,INV002,Mutton (Raw),18.0,550,0,Meat
+2024-12-10,INV003,Fish (Raw),20.0,420,0,Seafood
+2024-12-10,INV004,Prawns (Raw),12.0,680,0,Seafood
+2024-12-10,INV005,Paneer,25.0,320,0,Dairy
+2024-12-10,INV006,Milk,40.0,55,0,Dairy
+2024-12-10,INV007,Cream,12.0,280,0,Dairy
+2024-12-10,INV008,Yogurt,20.0,80,0,Dairy
+2024-12-10,INV009,Ghee,6.0,520,0,Dairy
+2024-12-10,INV010,Butter,5.0,450,0,Dairy
+2024-12-10,INV011,Tomatoes,50.0,40,0,Vegetables
+2024-12-10,INV012,Onions,60.0,35,0,Vegetables
+2024-12-10,INV013,Potatoes,55.0,25,0,Vegetables
+2024-12-10,INV014,Capsicum,18.0,120,0,Vegetables
+2024-12-10,INV015,Cauliflower,20.0,60,0,Vegetables
+2024-12-10,INV016,Spinach,12.0,80,0,Vegetables
+2024-12-10,INV017,Coriander,6.0,160,0,Herbs
+2024-12-10,INV018,Ginger,10.0,180,0,Vegetables
+2024-12-10,INV019,Garlic,8.0,200,0,Vegetables
+2024-12-10,INV020,Rice (Basmati),120.0,90,0,Grains
+2024-12-10,INV021,Rice (Regular),90.0,45,0,Grains
+2024-12-10,INV022,Flour (Wheat),60.0,40,0,Grains
+2024-12-10,INV023,Flour (Maida),35.0,45,0,Grains
+2024-12-10,INV024,Cooking Oil,30.0,130,0,Oils
+2024-12-10,INV025,Spices Mix,12.0,350,0,Spices

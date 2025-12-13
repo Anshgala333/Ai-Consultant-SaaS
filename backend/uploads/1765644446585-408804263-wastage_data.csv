@@ -1,0 +1,68 @@
+date,item,sku,quantity,unit_cost,value,reason,category,outlet
+2024-12-01,Chicken (Raw),RAW001,2.5,180,450,Expired,Meat,Outlet 1
+2024-12-01,Paneer,RAW002,1.2,320,384,Spoiled,Dairy,Outlet 1
+2024-12-01,Tomatoes,RAW003,3.0,40,120,Overripe,Vegetables,Outlet 1
+2024-12-01,Onions,RAW004,2.0,35,70,Damaged,Vegetables,Outlet 1
+2024-12-01,Naan (Prepared),SKU006,15,12,180,Unsold,Breads,Outlet 1
+2024-12-01,Butter Chicken,SKU002,3,85,255,Unsold,Main Course,Outlet 1
+2024-12-02,Fish (Raw),RAW005,1.8,420,756,Expired,Seafood,Outlet 1
+2024-12-02,Yogurt,RAW006,2.0,80,160,Expired,Dairy,Outlet 1
+2024-12-02,Capsicum,RAW007,1.5,120,180,Spoiled,Vegetables,Outlet 1
+2024-12-02,Chicken Biryani,SKU001,4,95,380,Unsold,Main Course,Outlet 1
+2024-12-02,Tandoori Roti,SKU007,20,8,160,Unsold,Breads,Outlet 1
+2024-12-02,Rice,RAW008,5.0,45,225,Pest Damage,Grains,Outlet 1
+2024-12-03,Mutton (Raw),RAW009,1.5,550,825,Expired,Meat,Outlet 1
+2024-12-03,Cream,RAW010,1.0,280,280,Spoiled,Dairy,Outlet 1
+2024-12-03,Coriander,RAW011,0.5,160,80,Wilted,Herbs,Outlet 1
+2024-12-03,Dal Makhani,SKU004,2,55,110,Unsold,Main Course,Outlet 1
+2024-12-03,Gulab Jamun,SKU008,12,18,216,Unsold,Desserts,Outlet 1
+2024-12-04,Prawns (Raw),RAW012,0.8,680,544,Expired,Seafood,Outlet 1
+2024-12-04,Ghee,RAW013,0.5,520,260,Rancid,Dairy,Outlet 1
+2024-12-04,Ginger,RAW014,0.8,180,144,Moldy,Vegetables,Outlet 1
+2024-12-04,Paneer Tikka,SKU003,5,65,325,Unsold,Starters,Outlet 1
+2024-12-04,Lassi,SKU009,8,28,224,Unsold,Beverages,Outlet 1
+2024-12-05,Chicken (Raw),RAW001,1.8,180,324,Expired,Meat,Outlet 1
+2024-12-05,Milk,RAW015,3.0,55,165,Soured,Dairy,Outlet 1
+2024-12-05,Potatoes,RAW016,4.0,25,100,Sprouted,Vegetables,Outlet 1
+2024-12-05,Veg Pulao,SKU005,3,48,144,Unsold,Rice,Outlet 1
+2024-12-05,Naan,SKU006,18,12,216,Unsold,Breads,Outlet 1
+2024-12-06,Fish (Raw),RAW005,1.2,420,504,Spoiled,Seafood,Outlet 1
+2024-12-06,Butter,RAW017,0.8,450,360,Rancid,Dairy,Outlet 1
+2024-12-06,Cauliflower,RAW018,2.5,60,150,Damaged,Vegetables,Outlet 1
+2024-12-06,Butter Chicken,SKU002,2,85,170,Unsold,Main Course,Outlet 1
+2024-12-06,Masala Chai,SKU010,10,15,150,Unsold,Beverages,Outlet 1
+2024-12-07,Lamb (Raw),RAW019,1.0,650,650,Expired,Meat,Outlet 1
+2024-12-07,Paneer,RAW002,0.8,320,256,Spoiled,Dairy,Outlet 1
+2024-12-07,Spinach,RAW020,1.5,80,120,Wilted,Vegetables,Outlet 1
+2024-12-07,Chicken Biryani,SKU001,3,95,285,Unsold,Main Course,Outlet 1
+2024-12-07,Kheer,SKU015,8,25,200,Unsold,Desserts,Outlet 1
+2024-12-08,Chicken (Raw),RAW001,2.0,180,360,Expired,Meat,Outlet 2
+2024-12-08,Cheese,RAW021,0.6,480,288,Moldy,Dairy,Outlet 2
+2024-12-08,Mushrooms,RAW022,1.0,280,280,Spoiled,Vegetables,Outlet 2
+2024-12-08,Fish Curry,SKU011,2,95,190,Unsold,Main Course,Outlet 2
+2024-12-08,Kulcha,SKU014,12,15,180,Unsold,Breads,Outlet 2
+2024-12-09,Prawns (Raw),RAW012,0.5,680,340,Expired,Seafood,Outlet 2
+2024-12-09,Cream,RAW010,0.8,280,224,Spoiled,Dairy,Outlet 2
+2024-12-09,Beans,RAW023,1.2,90,108,Damaged,Vegetables,Outlet 2
+2024-12-09,Prawn Masala,SKU012,2,115,230,Unsold,Main Course,Outlet 2
+2024-12-09,Mango Lassi,SKU016,10,35,350,Unsold,Beverages,Outlet 2
+2024-12-10,Mutton (Raw),RAW009,1.2,550,660,Expired,Meat,Outlet 1
+2024-12-10,Yogurt,RAW006,1.5,80,120,Expired,Dairy,Outlet 1
+2024-12-10,Carrots,RAW024,2.0,45,90,Damaged,Vegetables,Outlet 1
+2024-12-10,Dal Makhani,SKU004,3,55,165,Unsold,Main Course,Outlet 1
+2024-12-10,Tandoori Roti,SKU007,15,8,120,Unsold,Breads,Outlet 1
+2024-12-11,Chicken (Raw),RAW001,1.5,180,270,Expired,Meat,Outlet 1
+2024-12-11,Milk,RAW015,2.5,55,137.5,Soured,Dairy,Outlet 1
+2024-12-11,Garlic,RAW025,0.6,200,120,Sprouted,Vegetables,Outlet 1
+2024-12-11,Paneer Tikka,SKU003,4,65,260,Unsold,Starters,Outlet 1
+2024-12-11,Gulab Jamun,SKU008,10,18,180,Unsold,Desserts,Outlet 1
+2024-12-12,Fish (Raw),RAW005,1.0,420,420,Spoiled,Seafood,Outlet 1
+2024-12-12,Paneer,RAW002,1.0,320,320,Expired,Dairy,Outlet 1
+2024-12-12,Peas,RAW026,1.5,120,180,Damaged,Vegetables,Outlet 1
+2024-12-12,Butter Chicken,SKU002,2,85,170,Unsold,Main Course,Outlet 1
+2024-12-12,Naan,SKU006,12,12,144,Unsold,Breads,Outlet 1
+2024-12-13,Chicken (Raw),RAW001,1.8,180,324,Expired,Meat,Outlet 1
+2024-12-13,Cream,RAW010,0.6,280,168,Spoiled,Dairy,Outlet 1
+2024-12-13,Tomatoes,RAW003,2.5,40,100,Overripe,Vegetables,Outlet 1
+2024-12-13,Chicken Biryani,SKU001,2,95,190,Unsold,Main Course,Outlet 1
+2024-12-13,Lassi,SKU009,6,28,168,Unsold,Beverages,Outlet 1

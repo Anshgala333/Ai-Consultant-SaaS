@@ -1,0 +1,42 @@
+date,name,contact,email,rating,comment,sentiment,category,outlet
+2024-12-01,Rahul Sharma,9876543210,rahul@email.com,5,Excellent food and service! The biryani was amazing and perfectly spiced. Will definitely come back.,positive,Food Quality,Outlet 1
+2024-12-01,Priya Patel,9876543211,priya@email.com,4,Good food but the wait time was a bit long. Staff was friendly though.,positive,Service,Outlet 1
+2024-12-01,Amit Kumar,9876543212,amit@email.com,5,Best paneer tikka I've had in a long time. Great ambiance too!,positive,Food Quality,Outlet 1
+2024-12-02,Sneha Reddy,9876543213,sneha@email.com,3,Food was okay but portion sizes could be better for the price.,neutral,Value,Outlet 1
+2024-12-02,Vikram Singh,9876543214,vikram@email.com,5,Outstanding butter chicken! Creamy rich and flavorful. Highly recommended.,positive,Food Quality,Outlet 1
+2024-12-02,Neha Gupta,9876543215,neha@email.com,4,Nice place for family dinner. Kids loved the desserts.,positive,Ambiance,Outlet 1
+2024-12-03,Rajesh Menon,9876543216,rajesh@email.com,2,Service was slow and the naan arrived cold. Disappointing experience.,negative,Service,Outlet 1
+2024-12-03,Ananya Iyer,9876543217,ananya@email.com,5,Love this place! The dal makhani is comfort food at its best.,positive,Food Quality,Outlet 1
+2024-12-03,Karan Malhotra,9876543218,karan@email.com,4,Tasty food decent prices. Good for casual dining.,positive,Value,Outlet 1
+2024-12-04,Pooja Verma,9876543219,pooja@email.com,5,The mango lassi is to die for! Perfect balance of sweet and tangy.,positive,Beverages,Outlet 1
+2024-12-04,Suresh Nair,9876543220,suresh@email.com,3,Average experience. Food was fine but nothing special.,neutral,Food Quality,Outlet 1
+2024-12-04,Meera Joshi,9876543221,meera@email.com,4,Great vegetarian options. The paneer dishes are excellent.,positive,Food Quality,Outlet 1
+2024-12-05,Arjun Pillai,9876543222,arjun@email.com,5,Perfect biryani with tender chicken and aromatic rice. A must-try!,positive,Food Quality,Outlet 1
+2024-12-05,Divya Sharma,9876543223,divya@email.com,4,Enjoyed the thali - good variety and fresh rotis.,positive,Food Quality,Outlet 1
+2024-12-05,Rohit Kapoor,9876543224,rohit@email.com,1,Very disappointing. Food was lukewarm and tasted stale. Won't return.,negative,Food Quality,Outlet 1
+2024-12-06,Kavitha Raman,9876543225,kavitha@email.com,5,Best Indian restaurant in the area! Authentic flavors and warm hospitality.,positive,Food Quality,Outlet 1
+2024-12-06,Aakash Mehta,9876543226,aakash@email.com,4,Good food and reasonable prices. Nice for weekend lunches.,positive,Value,Outlet 1
+2024-12-06,Shruti Bhat,9876543227,shruti@email.com,5,The gulab jamun is heavenly! Soft sweet and perfectly made.,positive,Desserts,Outlet 1
+2024-12-07,Manish Agarwal,9876543228,manish@email.com,3,Decent food but the restaurant was too crowded and noisy.,neutral,Ambiance,Outlet 1
+2024-12-07,Ritu Saxena,9876543229,ritu@email.com,5,Loved everything we ordered! Special mention to the tandoori items.,positive,Food Quality,Outlet 1
+2024-12-07,Deepak Choudhary,9876543230,deepak@email.com,4,Great flavors and generous portions. Will bring friends next time.,positive,Food Quality,Outlet 1
+2024-12-08,Sunita Rao,9876543231,sunita@email.com,5,Wonderful experience! Staff went above and beyond to accommodate our requests.,positive,Service,Outlet 2
+2024-12-08,Naveen Krishnan,9876543232,naveen@email.com,4,The fish curry was excellent. Fresh fish and rich gravy.,positive,Food Quality,Outlet 2
+2024-12-08,Pallavi Shah,9876543233,pallavi@email.com,2,Waited 45 minutes for our order. Management needs to improve efficiency.,negative,Service,Outlet 2
+2024-12-09,Gaurav Thakur,9876543234,gaurav@email.com,5,Prawn masala was outstanding! Perfectly cooked with amazing spice blend.,positive,Food Quality,Outlet 2
+2024-12-09,Anjali Desai,9876543235,anjali@email.com,4,Nice family restaurant. Clean hygienic and good food.,positive,Hygiene,Outlet 2
+2024-12-09,Sanjay Patil,9876543236,sanjay@email.com,3,Food is good but parking is a nightmare. Need better facilities.,neutral,Facilities,Outlet 2
+2024-12-10,Lakshmi Iyer,9876543237,lakshmi@email.com,5,Authentic South Indian flavors blended beautifully with North Indian cuisine.,positive,Food Quality,Outlet 1
+2024-12-10,Prakash Sharma,9876543238,prakash@email.com,4,Good lunch buffet. Value for money with variety of options.,positive,Value,Outlet 1
+2024-12-10,Rekha Menon,9876543239,rekha@email.com,5,The best kulcha I've had! Soft fluffy and perfectly paired with dal.,positive,Food Quality,Outlet 1
+2024-12-11,Vivek Gupta,9876543240,vivek@email.com,4,Tasty food quick service. Our go-to place for Indian cuisine.,positive,Service,Outlet 1
+2024-12-11,Madhuri Sinha,9876543241,madhuri@email.com,5,Celebrated our anniversary here. The staff made it special!,positive,Service,Outlet 1
+2024-12-11,Arun Jain,9876543242,arun@email.com,3,Food quality has decreased from my last visit. Hope it improves.,neutral,Food Quality,Outlet 1
+2024-12-12,Nisha Kapoor,9876543243,nisha@email.com,5,Every dish we tried was a winner! Chef knows his craft.,positive,Food Quality,Outlet 1
+2024-12-12,Ravi Shankar,9876543244,ravi@email.com,4,Great spot for business lunches. Professional service and tasty food.,positive,Service,Outlet 1
+2024-12-12,Geeta Verma,9876543245,geeta@email.com,2,Found hair in my food. Very unhygienic. Needs serious attention.,negative,Hygiene,Outlet 1
+2024-12-13,Ashok Kumar,9876543246,ashok@email.com,5,The masala chai here is the best in the city! So refreshing.,positive,Beverages,Outlet 1
+2024-12-13,Padma Reddy,9876543247,padma@email.com,4,Lovely decor and great food. Perfect for celebrations.,positive,Ambiance,Outlet 1
+2024-12-13,Vijay Naidu,9876543248,vijay@email.com,5,Consistently good quality. Been coming here for years and never disappointed.,positive,Food Quality,Outlet 1
+2024-12-13,Swati Joshi,9876543249,swati@email.com,4,Good experience overall. The kheer was a perfect ending to the meal.,positive,Desserts,Outlet 1
+2024-12-13,Mohan Rao,9876543250,mohan@email.com,5,Excellent food excellent service excellent everything! 10/10 would recommend.,positive,Overall,Outlet 1
