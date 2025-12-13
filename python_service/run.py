@@ -29,8 +29,9 @@ def main():
         host="0.0.0.0",
         port=settings.port,
         reload=settings.debug,
-        log_level="debug" if settings.debug else "info",
-        access_log=True
+        log_level="info",  # Always use info to reduce noise
+        access_log=False,  # Disable access logs to reduce spam
+        reload_excludes=["*.pyc", "__pycache__", ".git", "*.log"]  # Exclude pyc files from watch
     )
 
 

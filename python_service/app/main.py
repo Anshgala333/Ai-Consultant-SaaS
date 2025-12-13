@@ -17,10 +17,17 @@ from app import __version__
 
 # Configure logging
 logging.basicConfig(
-    level=logging.DEBUG if settings.debug else logging.INFO,
+    level=logging.INFO,  # Use INFO level to reduce noise
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+# Silence noisy loggers
+logging.getLogger("pymongo").setLevel(logging.WARNING)
+logging.getLogger("pymongo.topology").setLevel(logging.WARNING)
+logging.getLogger("pymongo.serverSelection").setLevel(logging.WARNING)
+logging.getLogger("motor").setLevel(logging.WARNING)
+logging.getLogger("watchfiles").setLevel(logging.WARNING)
 
 
 @asynccontextmanager
