@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { kpiAPI, issuesAPI, recommendationsAPI, experimentsAPI, feedbackAPI } from '../api';
+import { kpiAPI, issuesAPI, recommendationsAPI, experimentsAPI, feedbackAPI, uploadAPI } from '../api';
+import { aiAPI, checkPythonServiceHealth } from '../pythonApi';
 import {
     TrendingUp,
     TrendingDown,
@@ -15,7 +16,12 @@ import {
     Activity,
     DollarSign,
     Trash2,
-    Star
+    Star,
+    Sparkles,
+    Database,
+    Server,
+    Zap,
+    FileSpreadsheet
 } from 'lucide-react';
 import {
     XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area,
@@ -28,6 +34,10 @@ const Dashboard = () => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [aiInsightsLoading, setAiInsightsLoading] = useState(false);
+    const [pythonService, setPythonService] = useState({ available: false });
+    const [aiInsights, setAiInsights] = useState(null);
+    const [recentUploads, setRecentUploads] = useState([]);
     const [data, setData] = useState({
         kpiSummary: null,
         kpiHistory: [],
@@ -41,13 +51,14 @@ const Dashboard = () => {
         try {
             if (showRefreshToast) setRefreshing(true);
 
-            const [kpiRes, historyRes, issuesRes, recRes, expRes, feedbackRes] = await Promise.all([
+            const [kpiRes, historyRes, issuesRes, recRes, expRes, feedbackRes, uploadsRes] = await Promise.all([
                 kpiAPI.getSummary().catch(() => ({ data: null })),
                 kpiAPI.getHistory({ limit: 8 }).catch(() => ({ data: [] })),
                 issuesAPI.getSummary().catch(() => ({ data: null })),
                 recommendationsAPI.getLatest().catch(() => ({ data: { recommendations: [] } })),
                 experimentsAPI.getSummary().catch(() => ({ data: null })),
-                feedbackAPI.getSummary().catch(() => ({ data: null }))
+                feedbackAPI.getSummary().catch(() => ({ data: null })),
+                uploadAPI.getUploads().catch(() => ({ data: [] }))
             ]);
 
             setData({
@@ -58,6 +69,8 @@ const Dashboard = () => {
                 experimentsSummary: expRes.data,
                 feedbackSummary: feedbackRes.data
             });
+
+            setRecentUploads((uploadsRes.data || []).slice(0, 3));
 
             if (showRefreshToast) toast.success('Dashboard refreshed');
         } catch (error) {
@@ -70,7 +83,26 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchData();
+        checkPythonServiceHealth().then(setPythonService);
     }, []);
+
+    // Fetch AI insights when Python service is available and we have KPI data
+    const generateAIInsights = async () => {
+        if (!pythonService.available || !data.kpiSummary) return;
+
+        setAiInsightsLoading(true);
+        try {
+            const response = await aiAPI.analyzeKPIs({
+                current_kpis: data.kpiSummary.currentPeriod || {},
+                historical_kpis: data.kpiHistory.slice(0, 4) || []
+            });
+            setAiInsights(response.data.analysis);
+        } catch (error) {
+            console.error('AI insights error:', error);
+        } finally {
+            setAiInsightsLoading(false);
+        }
+    };
 
     const getTrendIcon = (trend) => {
         if (trend === 'up') return <TrendingUp size={16} className="trend-up" />;
@@ -83,6 +115,17 @@ const Dashboard = () => {
         if (value >= 100000) return `₹${(value / 100000).toFixed(1)}L`;
         if (value >= 1000) return `₹${(value / 1000).toFixed(1)}K`;
         return `₹${value}`;
+    };
+
+    const getDataTypeColor = (type) => {
+        const colors = {
+            sales: '#10b981',
+            purchase: '#6366f1',
+            wastage: '#ef4444',
+            inventory: '#f59e0b',
+            staff: '#8b5cf6'
+        };
+        return colors[type] || '#6366f1';
     };
 
     if (loading) {
@@ -107,14 +150,22 @@ const Dashboard = () => {
                         <h1 className="page-title">Welcome back, {user?.businessName}</h1>
                         <p className="page-subtitle">Here's your business performance overview</p>
                     </div>
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => fetchData(true)}
-                        disabled={refreshing}
-                    >
-                        <RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} />
-                        Refresh
-                    </button>
+                    <div className="header-actions">
+                        {pythonService.available && (
+                            <div className="ai-status-badge">
+                                <Sparkles size={14} />
+                                AI Active
+                            </div>
+                        )}
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => fetchData(true)}
+                            disabled={refreshing}
+                        >
+                            <RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} />
+                            Refresh
+                        </button>
+                    </div>
                 </div>
 
                 {/* KPI Cards */}
@@ -210,6 +261,98 @@ const Dashboard = () => {
                             ) : (
                                 <div className="empty-chart">
                                     <p>Upload data to see trends</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* AI Insights Card - NEW */}
+                    <div className="card ai-insights-dashboard-card">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <Sparkles size={18} style={{ color: '#a855f7' }} />
+                                AI Insights
+                            </h3>
+                            {pythonService.available && !aiInsights && (
+                                <button
+                                    className="btn btn-ghost btn-sm"
+                                    onClick={generateAIInsights}
+                                    disabled={aiInsightsLoading}
+                                >
+                                    {aiInsightsLoading ? (
+                                        <RefreshCw size={14} className="animate-spin" />
+                                    ) : (
+                                        <Zap size={14} />
+                                    )}
+                                    Generate
+                                </button>
+                            )}
+                        </div>
+
+                        {!pythonService.available ? (
+                            <div className="ai-unavailable-small">
+                                <Server size={24} />
+                                <span>Start Python service to enable AI</span>
+                            </div>
+                        ) : aiInsightsLoading ? (
+                            <div className="ai-loading-small">
+                                <div className="spinner small"></div>
+                                <span>Analyzing your data...</span>
+                            </div>
+                        ) : aiInsights ? (
+                            <div className="ai-insights-content">
+                                {aiInsights.overall_assessment && (
+                                    <p className="ai-summary-text">{aiInsights.overall_assessment}</p>
+                                )}
+                                {aiInsights.recommendations?.slice(0, 2).map((rec, idx) => (
+                                    <div key={idx} className="ai-quick-rec">
+                                        <span className={`priority-dot ${rec.priority}`}></span>
+                                        <span>{rec.action}</span>
+                                    </div>
+                                ))}
+                                <Link to="/recommendations" className="view-more-link">
+                                    View all recommendations <ArrowRight size={14} />
+                                </Link>
+                            </div>
+                        ) : (
+                            <div className="ai-placeholder-small">
+                                <Sparkles size={32} />
+                                <span>Click Generate for AI-powered insights</span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Recent Uploads - NEW */}
+                    <div className="card">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <Database size={18} style={{ color: 'var(--accent-primary)' }} />
+                                Recent Uploads
+                            </h3>
+                            <Link to="/data-hub" className="card-link">View all <ArrowRight size={14} /></Link>
+                        </div>
+                        <div className="recent-uploads-list">
+                            {recentUploads.length > 0 ? recentUploads.map(upload => (
+                                <div key={upload._id} className="recent-upload-item">
+                                    <div
+                                        className="upload-indicator"
+                                        style={{ backgroundColor: getDataTypeColor(upload.dataType) }}
+                                    />
+                                    <FileSpreadsheet size={16} />
+                                    <div className="upload-details">
+                                        <span className="upload-name">{upload.fileName || 'Untitled'}</span>
+                                        <span className="upload-meta">
+                                            {upload.dataType} • {upload.summary?.totalRows || 0} rows
+                                        </span>
+                                    </div>
+                                    <span className="upload-time">
+                                        {new Date(upload.createdAt).toLocaleDateString()}
+                                    </span>
+                                </div>
+                            )) : (
+                                <div className="empty-uploads">
+                                    <p>No uploads yet</p>
+                                    <Link to="/upload" className="btn btn-primary btn-sm">Upload Data</Link>
                                 </div>
                             )}
                         </div>
@@ -360,13 +503,17 @@ const Dashboard = () => {
                         <span className="action-icon">📤</span>
                         <span className="action-label">Upload Data</span>
                     </Link>
+                    <Link to="/data-hub" className="action-card">
+                        <span className="action-icon">📊</span>
+                        <span className="action-label">Data Hub</span>
+                    </Link>
                     <Link to="/recommendations" className="action-card">
                         <span className="action-icon">✨</span>
-                        <span className="action-label">Get AI Insights</span>
+                        <span className="action-label">AI Insights</span>
                     </Link>
                     <Link to="/reports" className="action-card">
-                        <span className="action-icon">📊</span>
-                        <span className="action-label">Generate Report</span>
+                        <span className="action-icon">📑</span>
+                        <span className="action-label">Reports</span>
                     </Link>
                 </div>
             </div>

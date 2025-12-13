@@ -19,6 +19,7 @@ import Reports from './pages/Reports';
 import AdminDashboard from './pages/AdminDashboard';
 import FeedbackForm from './pages/FeedbackForm';
 import StaffLog from './pages/StaffLog';
+import DataHub from './pages/DataHub';
 
 // Layout
 import Layout from './components/Layout';
@@ -129,6 +130,14 @@ function App() {
                         <ProtectedRoute>
                             <Layout>
                                 <Upload />
+                            </Layout>
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path="/data-hub" element={
+                        <ProtectedRoute>
+                            <Layout>
+                                <DataHub />
                             </Layout>
                         </ProtectedRoute>
                     } />

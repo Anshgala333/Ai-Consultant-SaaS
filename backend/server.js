@@ -72,11 +72,11 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`
-  ╔═══════════════════════════════════════════════════╗
-  ║   AI Consultant API Server                         ║
-  ║   Running on: http://localhost:${PORT}               ║
-  ║   Environment: ${process.env.NODE_ENV || 'development'}                    ║
-  ╚═══════════════════════════════════════════════════╝
+  ╔════════════════════════════════════════════════════════╗
+  ║   AI Consultant API Server                             ║
+  ║   Running on: http://localhost:${PORT}                 ║
+  ║   Environment: ${process.env.NODE_ENV || 'development'}║
+  ╚════════════════════════════════════════════════════════╝
   `);
 });
 

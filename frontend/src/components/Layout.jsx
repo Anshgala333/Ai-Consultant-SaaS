@@ -13,7 +13,8 @@ import {
     X,
     Users,
     BarChart3,
-    MapPin
+    MapPin,
+    Database
 } from 'lucide-react';
 import { useState } from 'react';
 import './Layout.css';
@@ -30,8 +31,9 @@ const Layout = ({ children }) => {
 
     const navItems = [
         { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        { path: '/data-hub', icon: Database, label: 'Data Hub' },
+        { path: '/upload', icon: Upload, label: 'Upload' },
         { path: '/kpi-history', icon: BarChart3, label: 'KPI History' },
-        { path: '/upload', icon: Upload, label: 'Data Upload' },
         { path: '/issues', icon: AlertTriangle, label: 'Issues' },
         { path: '/recommendations', icon: Lightbulb, label: 'AI Insights' },
         { path: '/experiments', icon: FlaskConical, label: 'Experiments' },
