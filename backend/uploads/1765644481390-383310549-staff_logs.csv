@@ -1,0 +1,41 @@
+date,staff_name,staff_id,log_type,description,severity,status,outlet
+2024-12-01,Ramesh Kumar,STF001,wastage,Found 2kg chicken expired in cold storage. Was not rotated properly.,high,pending_review,Outlet 1
+2024-12-01,Sunita Devi,STF002,stock_out,Dal ran out during lunch rush. Need to increase par level.,medium,acknowledged,Outlet 1
+2024-12-01,Anil Singh,STF003,observation,New delivery person seems unreliable. Arrived 30 mins late.,low,reviewed,Outlet 1
+2024-12-02,Lakshmi Nair,STF004,quality_issue,Customer complained about rice being undercooked in biryani.,high,resolved,Outlet 1
+2024-12-02,Vikram Patel,STF005,wastage,15 naans unsold and thrown at closing. Consider reducing batch size.,medium,pending_review,Outlet 1
+2024-12-02,Priya Sharma,STF006,equipment,Tandoor temperature not reaching optimal level. Needs maintenance.,high,acknowledged,Outlet 1
+2024-12-03,Deepak Verma,STF007,observation,Peak lunch hours understaffed. Need additional server on weekends.,medium,reviewed,Outlet 1
+2024-12-03,Meena Kumari,STF008,wastage,Found wilted coriander. Supplier quality has declined.,medium,pending_review,Outlet 1
+2024-12-03,Rahul Gupta,STF009,stock_out,Mango pulp finished mid-service. Could not make mango lassi.,medium,acknowledged,Outlet 1
+2024-12-04,Anjali Desai,STF010,quality_issue,Oil temperature inconsistent during frying. Samosas were greasy.,medium,resolved,Outlet 1
+2024-12-04,Suresh Nair,STF011,wastage,4 portions butter chicken unsold. Overproduced for Tuesday.,low,reviewed,Outlet 1
+2024-12-04,Kavitha Rajan,STF012,observation,Competitor opened nearby. Noticed slight dip in lunch crowd.,low,acknowledged,Outlet 1
+2024-12-05,Ramesh Kumar,STF001,equipment,Walk-in cooler making unusual noise. Temperature fluctuating.,critical,pending_review,Outlet 1
+2024-12-05,Sunita Devi,STF002,wastage,Prawns expired due to power cut last night. Major loss.,critical,acknowledged,Outlet 1
+2024-12-05,Anil Singh,STF003,stock_out,No fresh paneer available. Had to refuse 3 orders.,high,resolved,Outlet 1
+2024-12-06,Lakshmi Nair,STF004,quality_issue,Gravy consistency not right today. New cook needs training.,medium,pending_review,Outlet 1
+2024-12-06,Vikram Patel,STF005,observation,Delivery apps showing wrong hours. Customers arriving after closing.,low,reviewed,Outlet 1
+2024-12-06,Priya Sharma,STF006,wastage,6 portions dal makhani left over. Thursday typically slow.,low,acknowledged,Outlet 1
+2024-12-07,Deepak Verma,STF007,equipment,Exhaust fan not working properly. Kitchen getting too hot.,high,pending_review,Outlet 1
+2024-12-07,Meena Kumari,STF008,quality_issue,Received wilted vegetables in morning delivery. Rejected 5kg tomatoes.,medium,resolved,Outlet 1
+2024-12-07,Rahul Gupta,STF009,observation,Many customers asking for sugar-free desserts. Menu opportunity?,low,reviewed,Outlet 1
+2024-12-08,Mohan Rao,STF013,wastage,Fish not sold in 2 days. Consider smaller order for Outlet 2.,high,pending_review,Outlet 2
+2024-12-08,Geeta Verma,STF014,stock_out,Ran out of kulcha during dinner service.,medium,acknowledged,Outlet 2
+2024-12-08,Ashok Kumar,STF015,quality_issue,Customer returned prawn dish saying prawns tasted off.,critical,resolved,Outlet 2
+2024-12-09,Padma Iyer,STF016,observation,Wedding season approaching. Should increase weekend inventory.,low,reviewed,Outlet 2
+2024-12-09,Vijay Singh,STF017,equipment,Ice machine broken. Using backup ice delivery.,medium,pending_review,Outlet 2
+2024-12-09,Rekha Menon,STF018,wastage,8 portions of kheer unsold. Reduce preparation quantity.,low,acknowledged,Outlet 2
+2024-12-10,Ramesh Kumar,STF001,quality_issue,Morning prep delayed due to late vegetable delivery.,medium,resolved,Outlet 1
+2024-12-10,Sunita Devi,STF002,observation,New spice mix from supplier is less fragrant. Consider alternative.,medium,pending_review,Outlet 1
+2024-12-10,Anil Singh,STF003,stock_out,Basmati rice running low. Need emergency order.,high,acknowledged,Outlet 1
+2024-12-11,Lakshmi Nair,STF004,wastage,Mutton order not picked up (no-show customer). Had to dispose.,high,pending_review,Outlet 1
+2024-12-11,Vikram Patel,STF005,equipment,Gas burner #3 flame uneven. Affects cooking time.,medium,reviewed,Outlet 1
+2024-12-11,Priya Sharma,STF006,quality_issue,Several complaints about food being too spicy today.,medium,acknowledged,Outlet 1
+2024-12-12,Deepak Verma,STF007,observation,Lunch rush started earlier than usual. Consider earlier prep.,low,resolved,Outlet 1
+2024-12-12,Meena Kumari,STF008,wastage,Cream spoiled faster than expected. Check refrigeration.,high,pending_review,Outlet 1
+2024-12-12,Rahul Gupta,STF009,stock_out,Mango out of season. Lassi orders affected.,low,reviewed,Outlet 1
+2024-12-13,Ramesh Kumar,STF001,quality_issue,Mixer grinder tripped circuit. Had to hand grind some items.,medium,pending_review,Outlet 1
+2024-12-13,Sunita Devi,STF002,observation,Customer praised new server. Consider for performance bonus.,low,acknowledged,Outlet 1
+2024-12-13,Anil Singh,STF003,wastage,3 rotis burnt during power fluctuation.,low,resolved,Outlet 1
+2024-12-13,Lakshmi Nair,STF004,equipment,Dishwasher not drying properly. Water retention issue.,medium,pending_review,Outlet 1

@@ -1,0 +1,131 @@
+date,sku,product_name,quantity,unit_price,amount,category,outlet
+2024-12-01,SKU001,Chicken Biryani,45,250,11250,Main Course,Outlet 1
+2024-12-01,SKU002,Butter Chicken,38,280,10640,Main Course,Outlet 1
+2024-12-01,SKU003,Paneer Tikka,52,180,9360,Starters,Outlet 1
+2024-12-01,SKU004,Dal Makhani,28,150,4200,Main Course,Outlet 1
+2024-12-01,SKU005,Veg Pulao,35,140,4900,Rice,Outlet 1
+2024-12-01,SKU006,Naan,120,40,4800,Breads,Outlet 1
+2024-12-01,SKU007,Tandoori Roti,95,30,2850,Breads,Outlet 1
+2024-12-01,SKU008,Gulab Jamun,42,60,2520,Desserts,Outlet 1
+2024-12-01,SKU009,Lassi,65,80,5200,Beverages,Outlet 1
+2024-12-01,SKU010,Masala Chai,88,40,3520,Beverages,Outlet 1
+2024-12-02,SKU001,Chicken Biryani,52,250,13000,Main Course,Outlet 1
+2024-12-02,SKU002,Butter Chicken,42,280,11760,Main Course,Outlet 1
+2024-12-02,SKU003,Paneer Tikka,48,180,8640,Starters,Outlet 1
+2024-12-02,SKU004,Dal Makhani,32,150,4800,Main Course,Outlet 1
+2024-12-02,SKU005,Veg Pulao,40,140,5600,Rice,Outlet 1
+2024-12-02,SKU006,Naan,135,40,5400,Breads,Outlet 1
+2024-12-02,SKU007,Tandoori Roti,108,30,3240,Breads,Outlet 1
+2024-12-02,SKU008,Gulab Jamun,55,60,3300,Desserts,Outlet 1
+2024-12-02,SKU009,Lassi,72,80,5760,Beverages,Outlet 1
+2024-12-02,SKU010,Masala Chai,95,40,3800,Beverages,Outlet 1
+2024-12-03,SKU001,Chicken Biryani,58,250,14500,Main Course,Outlet 1
+2024-12-03,SKU002,Butter Chicken,48,280,13440,Main Course,Outlet 1
+2024-12-03,SKU003,Paneer Tikka,55,180,9900,Starters,Outlet 1
+2024-12-03,SKU004,Dal Makhani,35,150,5250,Main Course,Outlet 1
+2024-12-03,SKU005,Veg Pulao,42,140,5880,Rice,Outlet 1
+2024-12-03,SKU006,Naan,148,40,5920,Breads,Outlet 1
+2024-12-03,SKU007,Tandoori Roti,115,30,3450,Breads,Outlet 1
+2024-12-03,SKU008,Gulab Jamun,62,60,3720,Desserts,Outlet 1
+2024-12-03,SKU009,Lassi,78,80,6240,Beverages,Outlet 1
+2024-12-03,SKU010,Masala Chai,102,40,4080,Beverages,Outlet 1
+2024-12-04,SKU001,Chicken Biryani,48,250,12000,Main Course,Outlet 1
+2024-12-04,SKU002,Butter Chicken,40,280,11200,Main Course,Outlet 1
+2024-12-04,SKU003,Paneer Tikka,50,180,9000,Starters,Outlet 1
+2024-12-04,SKU004,Dal Makhani,30,150,4500,Main Course,Outlet 1
+2024-12-04,SKU005,Veg Pulao,38,140,5320,Rice,Outlet 1
+2024-12-04,SKU006,Naan,125,40,5000,Breads,Outlet 1
+2024-12-04,SKU007,Tandoori Roti,100,30,3000,Breads,Outlet 1
+2024-12-04,SKU008,Gulab Jamun,48,60,2880,Desserts,Outlet 1
+2024-12-04,SKU009,Lassi,68,80,5440,Beverages,Outlet 1
+2024-12-04,SKU010,Masala Chai,90,40,3600,Beverages,Outlet 1
+2024-12-05,SKU001,Chicken Biryani,62,250,15500,Main Course,Outlet 1
+2024-12-05,SKU002,Butter Chicken,55,280,15400,Main Course,Outlet 1
+2024-12-05,SKU003,Paneer Tikka,60,180,10800,Starters,Outlet 1
+2024-12-05,SKU004,Dal Makhani,38,150,5700,Main Course,Outlet 1
+2024-12-05,SKU005,Veg Pulao,45,140,6300,Rice,Outlet 1
+2024-12-05,SKU006,Naan,160,40,6400,Breads,Outlet 1
+2024-12-05,SKU007,Tandoori Roti,125,30,3750,Breads,Outlet 1
+2024-12-05,SKU008,Gulab Jamun,70,60,4200,Desserts,Outlet 1
+2024-12-05,SKU009,Lassi,85,80,6800,Beverages,Outlet 1
+2024-12-05,SKU010,Masala Chai,110,40,4400,Beverages,Outlet 1
+2024-12-06,SKU001,Chicken Biryani,70,250,17500,Main Course,Outlet 1
+2024-12-06,SKU002,Butter Chicken,62,280,17360,Main Course,Outlet 1
+2024-12-06,SKU003,Paneer Tikka,68,180,12240,Starters,Outlet 1
+2024-12-06,SKU004,Dal Makhani,42,150,6300,Main Course,Outlet 1
+2024-12-06,SKU005,Veg Pulao,52,140,7280,Rice,Outlet 1
+2024-12-06,SKU006,Naan,175,40,7000,Breads,Outlet 1
+2024-12-06,SKU007,Tandoori Roti,140,30,4200,Breads,Outlet 1
+2024-12-06,SKU008,Gulab Jamun,80,60,4800,Desserts,Outlet 1
+2024-12-06,SKU009,Lassi,95,80,7600,Beverages,Outlet 1
+2024-12-06,SKU010,Masala Chai,125,40,5000,Beverages,Outlet 1
+2024-12-07,SKU001,Chicken Biryani,75,250,18750,Main Course,Outlet 1
+2024-12-07,SKU002,Butter Chicken,68,280,19040,Main Course,Outlet 1
+2024-12-07,SKU003,Paneer Tikka,72,180,12960,Starters,Outlet 1
+2024-12-07,SKU004,Dal Makhani,45,150,6750,Main Course,Outlet 1
+2024-12-07,SKU005,Veg Pulao,55,140,7700,Rice,Outlet 1
+2024-12-07,SKU006,Naan,185,40,7400,Breads,Outlet 1
+2024-12-07,SKU007,Tandoori Roti,150,30,4500,Breads,Outlet 1
+2024-12-07,SKU008,Gulab Jamun,88,60,5280,Desserts,Outlet 1
+2024-12-07,SKU009,Lassi,105,80,8400,Beverages,Outlet 1
+2024-12-07,SKU010,Masala Chai,135,40,5400,Beverages,Outlet 1
+2024-12-08,SKU001,Chicken Biryani,55,250,13750,Main Course,Outlet 2
+2024-12-08,SKU002,Butter Chicken,48,280,13440,Main Course,Outlet 2
+2024-12-08,SKU003,Paneer Tikka,58,180,10440,Starters,Outlet 2
+2024-12-08,SKU011,Fish Curry,32,320,10240,Main Course,Outlet 2
+2024-12-08,SKU012,Prawn Masala,25,380,9500,Main Course,Outlet 2
+2024-12-08,SKU013,Mutton Rogan Josh,22,420,9240,Main Course,Outlet 2
+2024-12-08,SKU006,Naan,145,40,5800,Breads,Outlet 2
+2024-12-08,SKU014,Kulcha,65,50,3250,Breads,Outlet 2
+2024-12-08,SKU015,Kheer,55,70,3850,Desserts,Outlet 2
+2024-12-08,SKU016,Mango Lassi,78,100,7800,Beverages,Outlet 2
+2024-12-09,SKU001,Chicken Biryani,60,250,15000,Main Course,Outlet 2
+2024-12-09,SKU002,Butter Chicken,52,280,14560,Main Course,Outlet 2
+2024-12-09,SKU003,Paneer Tikka,62,180,11160,Starters,Outlet 2
+2024-12-09,SKU011,Fish Curry,35,320,11200,Main Course,Outlet 2
+2024-12-09,SKU012,Prawn Masala,28,380,10640,Main Course,Outlet 2
+2024-12-09,SKU013,Mutton Rogan Josh,25,420,10500,Main Course,Outlet 2
+2024-12-09,SKU006,Naan,152,40,6080,Breads,Outlet 2
+2024-12-09,SKU014,Kulcha,70,50,3500,Breads,Outlet 2
+2024-12-09,SKU015,Kheer,60,70,4200,Desserts,Outlet 2
+2024-12-09,SKU016,Mango Lassi,85,100,8500,Beverages,Outlet 2
+2024-12-10,SKU001,Chicken Biryani,65,250,16250,Main Course,Outlet 1
+2024-12-10,SKU002,Butter Chicken,58,280,16240,Main Course,Outlet 1
+2024-12-10,SKU003,Paneer Tikka,65,180,11700,Starters,Outlet 1
+2024-12-10,SKU004,Dal Makhani,40,150,6000,Main Course,Outlet 1
+2024-12-10,SKU005,Veg Pulao,48,140,6720,Rice,Outlet 1
+2024-12-10,SKU006,Naan,158,40,6320,Breads,Outlet 1
+2024-12-10,SKU007,Tandoori Roti,128,30,3840,Breads,Outlet 1
+2024-12-10,SKU008,Gulab Jamun,72,60,4320,Desserts,Outlet 1
+2024-12-10,SKU009,Lassi,88,80,7040,Beverages,Outlet 1
+2024-12-10,SKU010,Masala Chai,118,40,4720,Beverages,Outlet 1
+2024-12-11,SKU001,Chicken Biryani,58,250,14500,Main Course,Outlet 1
+2024-12-11,SKU002,Butter Chicken,52,280,14560,Main Course,Outlet 1
+2024-12-11,SKU003,Paneer Tikka,60,180,10800,Starters,Outlet 1
+2024-12-11,SKU004,Dal Makhani,36,150,5400,Main Course,Outlet 1
+2024-12-11,SKU005,Veg Pulao,44,140,6160,Rice,Outlet 1
+2024-12-11,SKU006,Naan,150,40,6000,Breads,Outlet 1
+2024-12-11,SKU007,Tandoori Roti,120,30,3600,Breads,Outlet 1
+2024-12-11,SKU008,Gulab Jamun,65,60,3900,Desserts,Outlet 1
+2024-12-11,SKU009,Lassi,82,80,6560,Beverages,Outlet 1
+2024-12-11,SKU010,Masala Chai,112,40,4480,Beverages,Outlet 1
+2024-12-12,SKU001,Chicken Biryani,68,250,17000,Main Course,Outlet 1
+2024-12-12,SKU002,Butter Chicken,60,280,16800,Main Course,Outlet 1
+2024-12-12,SKU003,Paneer Tikka,70,180,12600,Starters,Outlet 1
+2024-12-12,SKU004,Dal Makhani,44,150,6600,Main Course,Outlet 1
+2024-12-12,SKU005,Veg Pulao,52,140,7280,Rice,Outlet 1
+2024-12-12,SKU006,Naan,170,40,6800,Breads,Outlet 1
+2024-12-12,SKU007,Tandoori Roti,138,30,4140,Breads,Outlet 1
+2024-12-12,SKU008,Gulab Jamun,78,60,4680,Desserts,Outlet 1
+2024-12-12,SKU009,Lassi,95,80,7600,Beverages,Outlet 1
+2024-12-12,SKU010,Masala Chai,128,40,5120,Beverages,Outlet 1
+2024-12-13,SKU001,Chicken Biryani,72,250,18000,Main Course,Outlet 1
+2024-12-13,SKU002,Butter Chicken,65,280,18200,Main Course,Outlet 1
+2024-12-13,SKU003,Paneer Tikka,75,180,13500,Starters,Outlet 1
+2024-12-13,SKU004,Dal Makhani,48,150,7200,Main Course,Outlet 1
+2024-12-13,SKU005,Veg Pulao,56,140,7840,Rice,Outlet 1
+2024-12-13,SKU006,Naan,180,40,7200,Breads,Outlet 1
+2024-12-13,SKU007,Tandoori Roti,145,30,4350,Breads,Outlet 1
+2024-12-13,SKU008,Gulab Jamun,85,60,5100,Desserts,Outlet 1
+2024-12-13,SKU009,Lassi,102,80,8160,Beverages,Outlet 1
+2024-12-13,SKU010,Masala Chai,135,40,5400,Beverages,Outlet 1
