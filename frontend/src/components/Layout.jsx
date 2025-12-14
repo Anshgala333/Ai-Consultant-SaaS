@@ -14,22 +14,26 @@ import {
     Users,
     BarChart3,
     MapPin,
-    Database
+    Database,
+    Building2
 } from 'lucide-react';
 import { useState } from 'react';
 import './Layout.css';
 
-const Layout = ({ children }) => {
-    const { user, logout } = useAuth();
+const Layout = ({ children, isEmployee = false }) => {
+    const { user, logout, isEmployee: authIsEmployee } = useAuth();
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const employeeMode = isEmployee || authIsEmployee;
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
 
-    const navItems = [
+    // Business navigation items
+    const businessNavItems = [
         { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
         { path: '/data-hub', icon: Database, label: 'Data Hub' },
         { path: '/upload', icon: Upload, label: 'Upload' },
@@ -39,11 +43,22 @@ const Layout = ({ children }) => {
         { path: '/experiments', icon: FlaskConical, label: 'Experiments' },
         { path: '/outlets', icon: MapPin, label: 'Outlets & QR' },
         { path: '/reports', icon: FileText, label: 'Reports' },
+        { path: '/employees', icon: Users, label: 'Employees' },
     ];
 
-    if (user?.isAdmin) {
-        navItems.push({ path: '/admin', icon: Users, label: 'Admin Panel' });
+    // Employee navigation items (minimal)
+    const employeeNavItems = [
+        { path: '/employee-dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    ];
+
+    const navItems = employeeMode ? employeeNavItems : businessNavItems;
+
+    if (!employeeMode && user?.isAdmin) {
+        navItems.push({ path: '/admin', icon: Settings, label: 'Admin Panel' });
     }
+
+    const displayName = employeeMode ? user?.name : user?.businessName;
+    const displayInitial = displayName?.charAt(0) || 'U';
 
     return (
         <div className="layout">
@@ -62,6 +77,12 @@ const Layout = ({ children }) => {
                         <div className="logo-icon">AI</div>
                         <span className="logo-text">Consultant</span>
                     </div>
+                    {employeeMode && (
+                        <div className="employee-badge">
+                            <Building2 size={12} />
+                            Employee
+                        </div>
+                    )}
                 </div>
 
                 <nav className="sidebar-nav">
@@ -81,10 +102,10 @@ const Layout = ({ children }) => {
                 <div className="sidebar-footer">
                     <div className="user-info">
                         <div className="user-avatar">
-                            {user?.businessName?.charAt(0) || 'U'}
+                            {displayInitial}
                         </div>
                         <div className="user-details">
-                            <span className="user-name">{user?.businessName || 'User'}</span>
+                            <span className="user-name">{displayName || 'User'}</span>
                             <span className="user-email">{user?.email}</span>
                         </div>
                     </div>

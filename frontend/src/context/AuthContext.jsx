@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../api';
+import { authAPI, employeeAPI } from '../api';
 
 const AuthContext = createContext(null);
 
@@ -18,15 +18,23 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         const savedUser = localStorage.getItem('user');
+        const userType = localStorage.getItem('userType');
 
         if (token && savedUser) {
-            setUser(JSON.parse(savedUser));
-            // Verify token is still valid
-            authAPI.getProfile()
+            const userData = JSON.parse(savedUser);
+            setUser(userData);
+
+            // Verify token is still valid based on user type
+            const verifyPromise = userType === 'employee'
+                ? employeeAPI.getProfile()
+                : authAPI.getProfile();
+
+            verifyPromise
                 .then(res => setUser(res.data))
                 .catch(() => {
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
+                    localStorage.removeItem('userType');
                     setUser(null);
                 })
                 .finally(() => setLoading(false));
@@ -40,6 +48,17 @@ export const AuthProvider = ({ children }) => {
         const { token, ...userData } = response.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('userType', 'business');
+        setUser(userData);
+        return userData;
+    };
+
+    const employeeLogin = async (email, password) => {
+        const response = await employeeAPI.login({ email, password });
+        const { token, ...userData } = response.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('userType', 'employee');
         setUser(userData);
         return userData;
     };
@@ -49,6 +68,7 @@ export const AuthProvider = ({ children }) => {
         const { token, ...userData } = response.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('userType', 'business');
         setUser(userData);
         return userData;
     };
@@ -56,6 +76,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('userType');
         setUser(null);
     };
 
@@ -65,9 +86,23 @@ export const AuthProvider = ({ children }) => {
         setUser(updatedUser);
     };
 
+    const isEmployee = user?.userType === 'employee';
+    const isBusiness = user?.userType === 'business';
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, updateUser }}>
+        <AuthContext.Provider value={{
+            user,
+            loading,
+            login,
+            employeeLogin,
+            register,
+            logout,
+            updateUser,
+            isEmployee,
+            isBusiness
+        }}>
             {children}
         </AuthContext.Provider>
     );
 };
+
