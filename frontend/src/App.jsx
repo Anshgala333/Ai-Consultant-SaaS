@@ -19,13 +19,15 @@ import Reports from './pages/Reports';
 import AdminDashboard from './pages/AdminDashboard';
 import FeedbackForm from './pages/FeedbackForm';
 import StaffLog from './pages/StaffLog';
+import EmployeeDashboard from './pages/EmployeeDashboard';
+import EmployeeManagement from './pages/EmployeeManagement';
 
 // Layout
 import Layout from './components/Layout';
 
-// Protected Route Component
+// Protected Route Component (Business only)
 const ProtectedRoute = ({ children }) => {
-    const { user, loading } = useAuth();
+    const { user, loading, isEmployee } = useAuth();
 
     if (loading) {
         return (
@@ -39,9 +41,38 @@ const ProtectedRoute = ({ children }) => {
         return <Navigate to="/login" replace />;
     }
 
+    // Redirect employees to their dashboard
+    if (isEmployee) {
+        return <Navigate to="/employee-dashboard" replace />;
+    }
+
     // Check if onboarding is needed
     if (!user.onboardingCompleted && window.location.pathname !== '/onboarding') {
         return <Navigate to="/onboarding" replace />;
+    }
+
+    return children;
+};
+
+// Employee Route Component
+const EmployeeRoute = ({ children }) => {
+    const { user, loading, isEmployee } = useAuth();
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center" style={{ minHeight: '100vh' }}>
+                <div className="spinner"></div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
+    // Redirect non-employees to company dashboard
+    if (!isEmployee) {
+        return <Navigate to="/dashboard" replace />;
     }
 
     return children;
@@ -68,7 +99,7 @@ const AdminRoute = ({ children }) => {
 
 // Onboarding Route - only requires login, not onboarding completion
 const OnboardingRoute = ({ children }) => {
-    const { user, loading } = useAuth();
+    const { user, loading, isEmployee } = useAuth();
 
     if (loading) {
         return (
@@ -82,12 +113,26 @@ const OnboardingRoute = ({ children }) => {
         return <Navigate to="/login" replace />;
     }
 
+    // Employees don't need onboarding
+    if (isEmployee) {
+        return <Navigate to="/employee-dashboard" replace />;
+    }
+
     // If onboarding is already complete, redirect to dashboard
     if (user.onboardingCompleted) {
         return <Navigate to="/dashboard" replace />;
     }
 
     return children;
+};
+
+// Employee Layout wrapper
+const EmployeeLayout = ({ children }) => {
+    return (
+        <Layout isEmployee={true}>
+            {children}
+        </Layout>
+    );
 };
 
 function App() {
@@ -116,7 +161,7 @@ function App() {
                         </OnboardingRoute>
                     } />
 
-                    {/* Protected Routes with Layout */}
+                    {/* Protected Routes with Layout (Business) */}
                     <Route path="/dashboard" element={
                         <ProtectedRoute>
                             <Layout>
@@ -189,6 +234,23 @@ function App() {
                         </ProtectedRoute>
                     } />
 
+                    <Route path="/employees" element={
+                        <ProtectedRoute>
+                            <Layout>
+                                <EmployeeManagement />
+                            </Layout>
+                        </ProtectedRoute>
+                    } />
+
+                    {/* Employee Routes */}
+                    <Route path="/employee-dashboard" element={
+                        <EmployeeRoute>
+                            <EmployeeLayout>
+                                <EmployeeDashboard />
+                            </EmployeeLayout>
+                        </EmployeeRoute>
+                    } />
+
                     {/* Admin Routes */}
                     <Route path="/admin" element={
                         <AdminRoute>
@@ -207,4 +269,3 @@ function App() {
 }
 
 export default App;
-

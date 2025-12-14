@@ -7,6 +7,7 @@ const Feedback = require('./Feedback');
 const StaffLog = require('./StaffLog');
 const Recommendation = require('./Recommendation');
 const Experiment = require('./Experiment');
+const Employee = require('./Employee');
 
 module.exports = {
     Business,
@@ -17,5 +18,6 @@ module.exports = {
     Feedback,
     StaffLog,
     Recommendation,
-    Experiment
+    Experiment,
+    Employee
 };

@@ -23,9 +23,15 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = '/login';
+            // Only redirect if we're not on the login page already
+            const isLoginRequest = error.config?.url?.includes('/auth/login') ||
+                error.config?.url?.includes('/auth/employee-login');
+            if (!isLoginRequest) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                localStorage.removeItem('userType');
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }
@@ -125,6 +131,18 @@ export const adminAPI = {
 export const reportsAPI = {
     generate: () => api.post('/reports/generate', {}, { responseType: 'blob' }),
     preview: () => api.get('/reports/preview')
+};
+
+// Employee API
+export const employeeAPI = {
+    // Company endpoints (managing employees)
+    create: (data) => api.post('/employees', data),
+    getAll: () => api.get('/employees'),
+    delete: (id) => api.delete(`/employees/${id}`),
+    reactivate: (id) => api.put(`/employees/${id}/reactivate`),
+    // Employee auth endpoints
+    login: (data) => api.post('/auth/employee-login', data),
+    getProfile: () => api.get('/auth/employee/me')
 };
 
 export default api;
