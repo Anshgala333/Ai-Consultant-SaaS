@@ -23,10 +23,16 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            // Only redirect if we're not on the login page already
-            const isLoginRequest = error.config?.url?.includes('/auth/login') ||
-                error.config?.url?.includes('/auth/employee-login');
-            if (!isLoginRequest) {
+            const url = error.config?.url || '';
+            // Don't redirect for login attempts or profile verification
+            // Profile verification is handled by AuthContext which manages state properly
+            const isAuthRelatedRequest = 
+                url.includes('/auth/login') ||
+                url.includes('/auth/employee-login') ||
+                url.includes('/auth/me') ||
+                url.includes('/auth/employee/me');
+            
+            if (!isAuthRelatedRequest) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 localStorage.removeItem('userType');
@@ -52,7 +58,9 @@ export const businessAPI = {
     updateProfile: (data) => api.put('/business/profile', data),
     getBenchmarks: () => api.get('/business/benchmarks'),
     addOutlet: (data) => api.post('/business/outlets', data),
-    deleteOutlet: (id) => api.delete(`/business/outlets/${id}`)
+    deleteOutlet: (id) => api.delete(`/business/outlets/${id}`),
+    // Employee-accessible endpoints
+    getEmployeeOutlets: () => api.get('/business/employee/outlets')
 };
 
 // Upload API
@@ -99,7 +107,10 @@ export const feedbackAPI = {
 // Staff Logs API
 export const staffLogsAPI = {
     create: (data) => api.post('/staff-logs', data),
+    createAsEmployee: (data) => api.post('/staff-logs/employee', data),
     getAll: (params) => api.get('/staff-logs', { params }),
+    getAllForEmployee: (params) => api.get('/staff-logs/employee/all', { params }),
+    getRecent: (businessId, since) => api.get('/staff-logs/recent', { params: { businessId, since } }),
     getSummary: () => api.get('/staff-logs/summary'),
     updateStatus: (id, status) => api.put(`/staff-logs/${id}/status`, { status }),
     getFormConfig: () => api.get('/staff-logs/form-config')
@@ -148,7 +159,16 @@ export const employeeAPI = {
     reactivate: (id) => api.put(`/employees/${id}/reactivate`),
     // Employee auth endpoints
     login: (data) => api.post('/auth/employee-login', data),
-    getProfile: () => api.get('/auth/employee/me')
+    getProfile: () => api.get('/auth/employee/me'),
+    changePassword: (data) => api.post('/auth/employee/change-password', data)
+};
+
+// Form Fields API
+export const formFieldsAPI = {
+    getConfig: (businessId) => api.get(`/form-fields/${businessId}`),
+    createField: (data) => api.post('/form-fields', data),
+    updateField: (id, data) => api.put(`/form-fields/${id}`, data),
+    deleteField: (id) => api.delete(`/form-fields/${id}`)
 };
 
 export default api;

@@ -30,7 +30,16 @@ export const AuthProvider = ({ children }) => {
                 : authAPI.getProfile();
 
             verifyPromise
-                .then(res => setUser(res.data))
+                .then(res => {
+                    // IMPORTANT: Preserve the userType when updating from profile response
+                    const profileData = res.data;
+                    const updatedUser = { 
+                        ...profileData, 
+                        userType: profileData.userType || userType || (userType === 'employee' ? 'employee' : 'business')
+                    };
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                    setUser(updatedUser);
+                })
                 .catch(() => {
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
@@ -46,31 +55,58 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         const response = await authAPI.login({ email, password });
         const { token, ...userData } = response.data;
+
+        // Explicitly add userType to ensure it persists in user object
+        const userWithType = { ...userData, userType: 'business' };
+
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('user', JSON.stringify(userWithType));
         localStorage.setItem('userType', 'business');
-        setUser(userData);
-        return userData;
+        setUser(userWithType);
+        return userWithType;
     };
 
     const employeeLogin = async (email, password) => {
-        const response = await employeeAPI.login({ email, password });
-        const { token, ...userData } = response.data;
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(userData));
-        localStorage.setItem('userType', 'employee');
-        setUser(userData);
-        return userData;
+        try {
+            console.log('[AuthContext] Attempting employee login for:', email);
+            const response = await employeeAPI.login({ email, password });
+            console.log('[AuthContext] Login response:', response.data);
+            const { token, ...userData } = response.data;
+
+            // Explicitly add userType to ensure it persists in user object
+            const userWithType = { ...userData, userType: 'employee' };
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userWithType));
+            localStorage.setItem('userType', 'employee');
+            setUser(userWithType);
+            return userWithType;
+        } catch (error) {
+            console.error('[AuthContext] Login failed:', error.response?.data || error.message);
+            throw error;
+        }
+    };
+
+    const changePassword = async (currentPassword, newPassword) => {
+        const response = await employeeAPI.changePassword({ currentPassword, newPassword });
+        const updatedUser = { ...user, firstLoginCompleted: true, requirePasswordChange: false };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        return response.data;
     };
 
     const register = async (email, password, businessName) => {
         const response = await authAPI.register({ email, password, businessName });
         const { token, ...userData } = response.data;
+
+        // Explicitly add userType to ensure it persists in user object
+        const userWithType = { ...userData, userType: 'business' };
+
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('user', JSON.stringify(userWithType));
         localStorage.setItem('userType', 'business');
-        setUser(userData);
-        return userData;
+        setUser(userWithType);
+        return userWithType;
     };
 
     const logout = () => {
@@ -95,6 +131,7 @@ export const AuthProvider = ({ children }) => {
             loading,
             login,
             employeeLogin,
+            changePassword,
             register,
             logout,
             updateUser,

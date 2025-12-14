@@ -23,7 +23,24 @@ const employeeSchema = new mongoose.Schema({
         ref: 'Business',
         required: true
     },
+    outletId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Outlet'
+    },
+    role: {
+        type: String,
+        enum: ['employee', 'manager', 'supervisor'],
+        default: 'employee'
+    },
     isActive: {
+        type: Boolean,
+        default: true
+    },
+    firstLoginCompleted: {
+        type: Boolean,
+        default: false
+    },
+    requirePasswordChange: {
         type: Boolean,
         default: true
     }

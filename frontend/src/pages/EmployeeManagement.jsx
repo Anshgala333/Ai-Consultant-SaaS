@@ -1,31 +1,46 @@
 import { useState, useEffect } from 'react';
-import { employeeAPI } from '../api';
-import { Users, Plus, Copy, Check, UserX, UserCheck, RefreshCw, Mail, User } from 'lucide-react';
+import { employeeAPI, businessAPI } from '../api';
+import { Users, Plus, Copy, Check, UserX, UserCheck, RefreshCw, Mail, User, Building } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const EmployeeManagement = () => {
     const [loading, setLoading] = useState(true);
     const [employees, setEmployees] = useState([]);
+    const [outlets, setOutlets] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showCredentialsModal, setShowCredentialsModal] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [copiedPassword, setCopiedPassword] = useState(false);
-    const [newEmployee, setNewEmployee] = useState({ name: '', email: '' });
+    const [newEmployee, setNewEmployee] = useState({ name: '', email: '', outletId: '', role: 'employee' });
 
     useEffect(() => {
-        fetchEmployees();
+        fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const [employeesRes, profileRes] = await Promise.all([
+                employeeAPI.getAll(),
+                businessAPI.getProfile()
+            ]);
+            setEmployees(employeesRes.data || []);
+            setOutlets(profileRes.data?.outlets || []);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            toast.error('Failed to fetch data');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchEmployees = async () => {
         try {
-            setLoading(true);
             const response = await employeeAPI.getAll();
             setEmployees(response.data || []);
         } catch (error) {
             console.error('Error fetching employees:', error);
             toast.error('Failed to fetch employees');
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -44,7 +59,7 @@ const EmployeeManagement = () => {
                 ...response.data,
                 password: response.data.generatedPassword
             });
-            setNewEmployee({ name: '', email: '' });
+            setNewEmployee({ name: '', email: '', outletId: '', role: 'employee' });
             fetchEmployees();
             toast.success('Employee created successfully!');
         } catch (error) {
@@ -137,6 +152,12 @@ const EmployeeManagement = () => {
                                             <Mail size={14} />
                                             {employee.email}
                                         </p>
+                                        {employee.outletId && (
+                                            <p className="employee-branch">
+                                                <Building size={14} />
+                                                {employee.outletId.name}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -144,6 +165,11 @@ const EmployeeManagement = () => {
                                     <span className={`status-badge ${employee.isActive ? 'active' : 'inactive'}`}>
                                         {employee.isActive ? 'Active' : 'Inactive'}
                                     </span>
+                                    {employee.role && employee.role !== 'employee' && (
+                                        <span className="role-badge">
+                                            {employee.role}
+                                        </span>
+                                    )}
                                 </div>
 
                                 <div className="employee-actions">
@@ -200,6 +226,34 @@ const EmployeeManagement = () => {
                                         placeholder="employee@company.com"
                                         required
                                     />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">Assign to Branch</label>
+                                    <select
+                                        className="form-select"
+                                        value={newEmployee.outletId}
+                                        onChange={e => setNewEmployee({ ...newEmployee, outletId: e.target.value })}
+                                    >
+                                        <option value="">-- All Branches --</option>
+                                        {outlets.map(outlet => (
+                                            <option key={outlet._id} value={outlet._id}>
+                                                {outlet.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <p className="form-hint">Leave empty if employee works across all branches</p>
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">Role</label>
+                                    <select
+                                        className="form-select"
+                                        value={newEmployee.role}
+                                        onChange={e => setNewEmployee({ ...newEmployee, role: e.target.value })}
+                                    >
+                                        <option value="employee">Employee</option>
+                                        <option value="supervisor">Supervisor</option>
+                                        <option value="manager">Manager</option>
+                                    </select>
                                 </div>
                                 <div className="modal-actions">
                                     <button type="button" className="btn btn-ghost" onClick={() => setShowAddModal(false)}>
@@ -303,8 +357,33 @@ const EmployeeManagement = () => {
                     color: var(--text-muted);
                     font-size: 0.875rem;
                 }
+                .employee-branch {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: var(--accent-primary);
+                    font-size: 0.813rem;
+                    margin-top: 0.25rem;
+                }
                 .employee-status {
                     margin-bottom: 1rem;
+                    display: flex;
+                    gap: 0.5rem;
+                    flex-wrap: wrap;
+                }
+                .role-badge {
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 999px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    text-transform: capitalize;
+                    background: rgba(99, 102, 241, 0.15);
+                    color: #6366f1;
+                }
+                .form-hint {
+                    font-size: 0.75rem;
+                    color: var(--text-muted);
+                    margin-top: 0.25rem;
                 }
                 .status-badge {
                     padding: 0.25rem 0.75rem;

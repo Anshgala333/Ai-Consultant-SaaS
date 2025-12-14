@@ -2,7 +2,20 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { Business, Outlet } = require('../models');
-const { protect } = require('../middleware/auth');
+const { protect, protectEmployee } = require('../middleware/auth');
+
+// @route   GET /api/business/employee/outlets
+// @desc    Get outlets for employee's business (employee access)
+// @access  Private (Employee)
+router.get('/employee/outlets', protectEmployee, async (req, res) => {
+    try {
+        const outlets = await Outlet.find({ business: req.employee.businessId._id || req.employee.businessId });
+        res.json({ outlets });
+    } catch (error) {
+        console.error('Employee outlets error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 // @route   PUT /api/business/onboarding
 // @desc    Update business profile during onboarding (Module 1)

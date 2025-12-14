@@ -22,6 +22,7 @@ import StaffLog from './pages/StaffLog';
 import DataHub from './pages/DataHub';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import EmployeeManagement from './pages/EmployeeManagement';
+import ChangePassword from './pages/ChangePassword';
 
 // Layout
 import Layout from './components/Layout';
@@ -74,6 +75,11 @@ const EmployeeRoute = ({ children }) => {
     // Redirect non-employees to company dashboard
     if (!isEmployee) {
         return <Navigate to="/dashboard" replace />;
+    }
+
+    // Check if password change is required
+    if (user.requirePasswordChange && window.location.pathname !== '/employee/change-password') {
+        return <Navigate to="/employee/change-password" replace />;
     }
 
     return children;
@@ -252,6 +258,12 @@ function App() {
                     } />
 
                     {/* Employee Routes */}
+                    <Route path="/employee/change-password" element={
+                        <EmployeeRoute>
+                            <ChangePassword />
+                        </EmployeeRoute>
+                    } />
+
                     <Route path="/employee-dashboard" element={
                         <EmployeeRoute>
                             <EmployeeLayout>

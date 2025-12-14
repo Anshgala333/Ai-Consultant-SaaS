@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { staffLogsAPI } from '../api';
+import { staffLogsAPI, formFieldsAPI } from '../api';
 import { ClipboardList, Send, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const StaffLog = () => {
     const [config, setConfig] = useState(null);
+    const [customFields, setCustomFields] = useState([]);
     const [loading, setLoading] = useState(true);
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
@@ -15,11 +16,13 @@ const StaffLog = () => {
         title: '',
         description: '',
         severity: 'medium',
-        estimatedImpact: ''
+        estimatedImpact: '',
+        customFields: {}
     });
 
     useEffect(() => {
         fetchConfig();
+        fetchCustomFields();
     }, []);
 
     const fetchConfig = async () => {
@@ -31,6 +34,30 @@ const StaffLog = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const fetchCustomFields = async () => {
+        try {
+            // Get businessId from URL params if available
+            const params = new URLSearchParams(window.location.search);
+            const businessId = params.get('businessId');
+            if (businessId) {
+                const response = await formFieldsAPI.getConfig(businessId);
+                setCustomFields(response.data || []);
+            }
+        } catch (error) {
+            console.error('Error fetching custom fields:', error);
+        }
+    };
+
+    const handleCustomFieldChange = (fieldName, value) => {
+        setFormData({
+            ...formData,
+            customFields: {
+                ...formData.customFields,
+                [fieldName]: value
+            }
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -124,6 +151,68 @@ const StaffLog = () => {
                             ))}
                         </div>
                     </div>
+
+                    {/* Dynamic Custom Fields */}
+                    {customFields.map((field) => (
+                        <div key={field._id} className="form-group">
+                            <label className="form-label">
+                                {field.label} {field.required && '*'}
+                            </label>
+                            {field.fieldType === 'text' && (
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    placeholder={field.placeholder || ''}
+                                    value={formData.customFields[field.fieldName] || ''}
+                                    onChange={(e) => handleCustomFieldChange(field.fieldName, e.target.value)}
+                                    required={field.required}
+                                />
+                            )}
+                            {field.fieldType === 'textarea' && (
+                                <textarea
+                                    className="form-textarea"
+                                    placeholder={field.placeholder || ''}
+                                    value={formData.customFields[field.fieldName] || ''}
+                                    onChange={(e) => handleCustomFieldChange(field.fieldName, e.target.value)}
+                                    required={field.required}
+                                />
+                            )}
+                            {field.fieldType === 'number' && (
+                                <input
+                                    type="number"
+                                    className="form-input"
+                                    placeholder={field.placeholder || ''}
+                                    value={formData.customFields[field.fieldName] || ''}
+                                    onChange={(e) => handleCustomFieldChange(field.fieldName, e.target.value)}
+                                    required={field.required}
+                                />
+                            )}
+                            {field.fieldType === 'select' && (
+                                <select
+                                    className="form-select"
+                                    value={formData.customFields[field.fieldName] || ''}
+                                    onChange={(e) => handleCustomFieldChange(field.fieldName, e.target.value)}
+                                    required={field.required}
+                                >
+                                    <option value="">Select...</option>
+                                    {field.options?.map((option, idx) => (
+                                        <option key={idx} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+                            {field.fieldType === 'date' && (
+                                <input
+                                    type="date"
+                                    className="form-input"
+                                    value={formData.customFields[field.fieldName] || ''}
+                                    onChange={(e) => handleCustomFieldChange(field.fieldName, e.target.value)}
+                                    required={field.required}
+                                />
+                            )}
+                        </div>
+                    ))}
 
                     <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%' }}>
                         <Send size={18} /> Submit Log

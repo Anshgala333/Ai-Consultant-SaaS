@@ -16,6 +16,7 @@ const experimentRoutes = require('./routes/experiments');
 const adminRoutes = require('./routes/admin');
 const reportRoutes = require('./routes/reports');
 const employeeRoutes = require('./routes/employees');
+const formFieldRoutes = require('./routes/formFields');
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use('/api/experiments', experimentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/employees', employeeRoutes);
+app.use('/api/form-fields', formFieldRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

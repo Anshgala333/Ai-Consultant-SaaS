@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { businessAPI, feedbackAPI } from '../api';
+import { useAuth } from '../context/AuthContext';
 import { MapPin, QrCode, Plus, Download, Copy, Trash2, Search, Filter } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -41,6 +42,7 @@ const CITIES_BY_STATE = {
 };
 
 const Outlets = () => {
+    const { isEmployee } = useAuth();
     const [loading, setLoading] = useState(true);
     const [outlets, setOutlets] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -59,7 +61,10 @@ const Outlets = () => {
 
     const fetchOutlets = async () => {
         try {
-            const response = await businessAPI.getProfile();
+            // Use employee-specific endpoint if user is an employee
+            const response = isEmployee 
+                ? await businessAPI.getEmployeeOutlets()
+                : await businessAPI.getProfile();
             setOutlets(response.data?.outlets || []);
         } catch (error) {
             console.error('Error:', error);

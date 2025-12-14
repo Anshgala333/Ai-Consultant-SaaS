@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { StaffLog, Issue, Outlet } = require('../models');
-const { protect } = require('../middleware/auth');
+const { protect, protectEmployee } = require('../middleware/auth');
 
 // @route   POST /api/staff-logs
 // @desc    Create staff log (Module 6)
@@ -31,7 +31,9 @@ router.post('/', [
             relatedItems,
             estimatedImpact,
             immediateAction,
-            incidentTime
+            incidentTime,
+            attachments,
+            customFields
         } = req.body;
 
         // Create staff log
@@ -47,7 +49,9 @@ router.post('/', [
             relatedItems: relatedItems || [],
             estimatedImpact: estimatedImpact || 0,
             immediateAction: immediateAction,
-            incidentTime: incidentTime || new Date()
+            incidentTime: incidentTime || new Date(),
+            attachments: attachments || [],
+            customFields: customFields || {}
         });
 
         // Auto-create issue for high severity logs
@@ -202,6 +206,148 @@ router.get('/form-config', (req, res) => {
             { value: 'other', label: 'Other' }
         ]
     });
+});
+
+// @route   POST /api/staff-logs/employee
+// @desc    Create staff log as authenticated employee
+// @access  Private (Employee)
+router.post('/employee', protectEmployee, [
+    body('logType').notEmpty(),
+    body('title').trim().notEmpty(),
+    body('description').trim().notEmpty()
+], async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const {
+            logType,
+            title,
+            description,
+            severity,
+            outletId,
+            estimatedImpact,
+            immediateAction,
+            incidentTime,
+            attachments,
+            customFields
+        } = req.body;
+
+        // Map Employee role to StaffLog staffRole enum values
+        // Employee roles: ['employee', 'manager', 'supervisor']
+        // StaffLog roles: ['manager', 'supervisor', 'staff', 'cashier', 'kitchen', 'delivery', 'other']
+        const roleMapping = {
+            'employee': 'staff',
+            'manager': 'manager',
+            'supervisor': 'supervisor'
+        };
+        const mappedRole = roleMapping[req.employee.role] || 'staff';
+
+        // Auto-populate from authenticated employee
+        const staffLog = await StaffLog.create({
+            business: req.employee.businessId._id,
+            outlet: outletId || req.employee.outletId || undefined,
+            staffName: req.employee.name,
+            staffRole: mappedRole,
+            logType,
+            title,
+            description,
+            severity: severity || 'medium',
+            relatedItems: [],
+            estimatedImpact: estimatedImpact || 0,
+            immediateAction: immediateAction,
+            incidentTime: incidentTime || new Date(),
+            attachments: attachments || [],
+            customFields: customFields || {}
+        });
+
+        // Auto-create issue for high severity logs
+        if (severity === 'high' || severity === 'critical' ||
+            ['stock_out', 'equipment_breakdown', 'customer_complaint'].includes(logType)) {
+
+            const issueTypeMap = {
+                'stock_out': 'stock_out',
+                'delay': 'staff_delay',
+                'customer_complaint': 'customer_complaint',
+                'wastage_incident': 'high_wastage',
+                'equipment_breakdown': 'equipment_breakdown'
+            };
+
+            const issue = await Issue.create({
+                business: staffLog.business,
+                outlet: outletId || undefined,
+                type: issueTypeMap[logType] || 'inventory_issue',
+                title: title,
+                description: description,
+                severity: severity || 'medium',
+                source: 'staff_log',
+                estimatedImpact: estimatedImpact || 0,
+                relatedData: { staffLogId: staffLog._id }
+            });
+
+            staffLog.linkedIssue = issue._id;
+            await staffLog.save();
+        }
+
+        res.status(201).json({
+            message: 'Log submitted successfully',
+            log: staffLog
+        });
+    } catch (error) {
+        console.error('Employee staff log error:', error);
+        res.status(500).json({ message: 'Failed to submit log' });
+    }
+});
+
+// @route   GET /api/staff-logs/employee/all
+// @desc    Get all staff logs for employee's business
+// @access  Private (Employee)
+router.get('/employee/all', protectEmployee, async (req, res) => {
+    try {
+        const { limit = 50, skip = 0 } = req.query;
+
+        const logs = await StaffLog.find({ business: req.employee.businessId._id })
+            .sort({ incidentTime: -1 })
+            .limit(parseInt(limit))
+            .skip(parseInt(skip))
+            .populate('outlet', 'name')
+            .populate('linkedIssue', 'status');
+
+        res.json(logs);
+    } catch (error) {
+        console.error('Get employee staff logs error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @route   GET /api/staff-logs/recent
+// @desc    Get recent staff logs for real-time polling
+// @access  Private (Employee or Business)
+router.get('/recent', async (req, res) => {
+    try {
+        const { businessId, since } = req.query;
+
+        if (!businessId || !since) {
+            return res.status(400).json({ message: 'businessId and since timestamp required' });
+        }
+
+        const sinceDate = new Date(parseInt(since));
+
+        const logs = await StaffLog.find({
+            business: businessId,
+            createdAt: { $gt: sinceDate }
+        })
+            .sort({ createdAt: -1 })
+            .populate('outlet', 'name')
+            .populate('linkedIssue', 'status');
+
+        res.json(logs);
+    } catch (error) {
+        console.error('Get recent staff logs error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 
 module.exports = router;

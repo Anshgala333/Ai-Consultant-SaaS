@@ -98,8 +98,11 @@ router.post('/employee-login', [
     body('password').notEmpty()
 ], async (req, res) => {
     try {
+        console.log('[EMPLOYEE LOGIN] Attempt for email:', req.body.email);
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            console.log('[EMPLOYEE LOGIN] Validation errors:', errors.array());
             return res.status(400).json({ errors: errors.array() });
         }
 
@@ -107,20 +110,34 @@ router.post('/employee-login', [
 
         // Find employee
         const employee = await Employee.findOne({ email }).populate('businessId', 'businessName');
+
         if (!employee) {
+            console.log('[EMPLOYEE LOGIN] Employee not found:', email);
             return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        console.log('[EMPLOYEE LOGIN] Employee found:', employee._id, 'Active:', employee.isActive);
+
+        // Check if business was populated correctly
+        if (!employee.businessId) {
+            console.error('[EMPLOYEE LOGIN] CRITICAL: businessId not populated for employee:', employee._id);
+            return res.status(500).json({ message: 'Employee account configuration error. Please contact support.' });
         }
 
         // Check if active
         if (!employee.isActive) {
+            console.log('[EMPLOYEE LOGIN] Employee account deactivated:', email);
             return res.status(401).json({ message: 'Account is deactivated. Please contact your employer.' });
         }
 
         // Check password
         const isMatch = await employee.comparePassword(password);
         if (!isMatch) {
+            console.log('[EMPLOYEE LOGIN] Password mismatch for:', email);
             return res.status(401).json({ message: 'Invalid credentials' });
         }
+
+        console.log('[EMPLOYEE LOGIN] Login successful for:', email);
 
         res.json({
             _id: employee._id,
@@ -128,12 +145,16 @@ router.post('/employee-login', [
             name: employee.name,
             businessId: employee.businessId._id,
             businessName: employee.businessId.businessName,
+            role: employee.role || 'employee',
+            firstLoginCompleted: employee.firstLoginCompleted || false,
+            requirePasswordChange: employee.requirePasswordChange !== false, // Default to true if undefined
             userType: 'employee',
             token: generateEmployeeToken(employee._id)
         });
     } catch (error) {
-        console.error('Employee login error:', error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('[EMPLOYEE LOGIN] Error:', error);
+        console.error('[EMPLOYEE LOGIN] Stack trace:', error.stack);
+        res.status(500).json({ message: 'Server error. Please try again later.' });
     }
 });
 
@@ -161,6 +182,50 @@ router.get('/employee/me', protectEmployee, async (req, res) => {
         res.json({ ...employee.toObject(), userType: 'employee' });
     } catch (error) {
         console.error('Get employee profile error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @route   POST /api/auth/employee/change-password
+// @desc    Change employee password (first-time login)
+// @access  Private (Employee)
+router.post('/employee/change-password', [
+    body('currentPassword').notEmpty(),
+    body('newPassword').isLength({ min: 6 })
+], protectEmployee, async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { currentPassword, newPassword } = req.body;
+
+        // Get employee with password
+        const employee = await Employee.findById(req.employee._id);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        // Verify current password
+        const isMatch = await employee.comparePassword(currentPassword);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Current password is incorrect' });
+        }
+
+        // Update password
+        employee.password = newPassword;
+        employee.firstLoginCompleted = true;
+        employee.requirePasswordChange = false;
+        await employee.save();
+
+        res.json({
+            message: 'Password changed successfully',
+            firstLoginCompleted: true,
+            requirePasswordChange: false
+        });
+    } catch (error) {
+        console.error('Change password error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });

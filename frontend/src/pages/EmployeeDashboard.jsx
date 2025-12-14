@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { MapPin, QrCode, AlertTriangle, Building2 } from 'lucide-react';
+import { MapPin, QrCode, ClipboardList, Building2, PlusCircle, X } from 'lucide-react';
 import Outlets from './Outlets';
-import ErrorReporting from './ErrorReporting';
+import EmployeeStaffLogs from './EmployeeStaffLogs';
+import StaffLogForm from './StaffLogForm';
 import './Dashboard.css';
 
 const EmployeeDashboard = () => {
     const { user } = useAuth();
-    const [activeTab, setActiveTab] = useState('outlets'); // 'outlets' or 'errors'
+    const [activeTab, setActiveTab] = useState('outlets'); // 'outlets', 'staffLogs', or 'logIssue'
+    const [showLogForm, setShowLogForm] = useState(false);
+
+    const handleLogSuccess = () => {
+        setShowLogForm(false);
+        setActiveTab('staffLogs');
+    };
 
     return (
         <div className="page employee-dashboard">
@@ -29,23 +36,45 @@ const EmployeeDashboard = () => {
                         className={`employee-tab ${activeTab === 'outlets' ? 'active' : ''}`}
                         onClick={() => setActiveTab('outlets')}
                     >
-                        <MapPin size={18} />
-                        <span>Outlets & QR</span>
+                        <QrCode size={18} />
+                        <span>QR Codes</span>
                     </button>
                     <button
-                        className={`employee-tab ${activeTab === 'errors' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('errors')}
+                        className={`employee-tab ${activeTab === 'staffLogs' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('staffLogs')}
                     >
-                        <AlertTriangle size={18} />
-                        <span>Error Reporting</span>
+                        <ClipboardList size={18} />
+                        <span>Staff Logs</span>
+                    </button>
+                    <button
+                        className={`employee-tab log-issue-tab ${activeTab === 'logIssue' ? 'active' : ''}`}
+                        onClick={() => setShowLogForm(true)}
+                    >
+                        <PlusCircle size={18} />
+                        <span>Log Issue</span>
                     </button>
                 </div>
 
                 {/* Tab Content */}
                 <div className="tab-content">
                     {activeTab === 'outlets' && <Outlets />}
-                    {activeTab === 'errors' && <ErrorReporting />}
+                    {activeTab === 'staffLogs' && <EmployeeStaffLogs onLogIssue={() => setShowLogForm(true)} />}
                 </div>
+
+                {/* Log Issue Modal */}
+                {showLogForm && (
+                    <div className="log-form-modal-overlay" onClick={() => setShowLogForm(false)}>
+                        <div className="log-form-modal" onClick={(e) => e.stopPropagation()}>
+                            <button className="modal-close-btn" onClick={() => setShowLogForm(false)}>
+                                <X size={24} />
+                            </button>
+                            <StaffLogForm 
+                                onClose={() => setShowLogForm(false)} 
+                                onSuccess={handleLogSuccess}
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
             <style>{`
                 .employee-dashboard .page-subtitle {
@@ -84,6 +113,14 @@ const EmployeeDashboard = () => {
                     color: var(--text-primary);
                     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
                 }
+                .employee-tab.log-issue-tab {
+                    background: var(--accent-primary);
+                    color: white;
+                }
+                .employee-tab.log-issue-tab:hover {
+                    background: var(--accent-secondary);
+                    color: white;
+                }
                 .tab-content {
                     min-height: 400px;
                 }
@@ -97,9 +134,85 @@ const EmployeeDashboard = () => {
                 .tab-content .page-header {
                     margin-bottom: 1.5rem;
                 }
+                
+                /* Log Form Modal */
+                .log-form-modal-overlay {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0, 0, 0, 0.75);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                    padding: 1rem;
+                    overflow-y: auto;
+                }
+                .log-form-modal {
+                    position: relative;
+                    background: var(--bg-card);
+                    border: 1px solid var(--border-color);
+                    border-radius: 20px;
+                    width: 100%;
+                    max-width: 540px;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    animation: slideUp 0.3s ease;
+                }
+                .modal-close-btn {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: var(--bg-tertiary);
+                    border: none;
+                    border-radius: 10px;
+                    color: var(--text-muted);
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    z-index: 10;
+                }
+                .modal-close-btn:hover {
+                    background: var(--bg-secondary);
+                    color: var(--text-primary);
+                }
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                @media (max-width: 640px) {
+                    .employee-tabs {
+                        width: 100%;
+                        overflow-x: auto;
+                        flex-wrap: nowrap;
+                    }
+                    .employee-tab span {
+                        white-space: nowrap;
+                    }
+                    .log-form-modal {
+                        max-height: 95vh;
+                        border-radius: 16px 16px 0 0;
+                        margin-top: auto;
+                    }
+                    .log-form-modal-overlay {
+                        align-items: flex-end;
+                        padding: 0;
+                    }
+                }
             `}</style>
         </div>
     );
 };
 
 export default EmployeeDashboard;
+

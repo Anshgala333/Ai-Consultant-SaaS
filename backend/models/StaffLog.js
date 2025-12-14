@@ -84,6 +84,23 @@ const staffLogSchema = new mongoose.Schema({
         ref: 'Issue'
     },
 
+    // File attachments
+    attachments: [{
+        fileName: String,
+        fileUrl: String,
+        fileType: String,
+        uploadedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+
+    // Custom form fields
+    customFields: {
+        type: Map,
+        of: mongoose.Schema.Types.Mixed
+    },
+
     // Timestamp of incident (may differ from log creation)
     incidentTime: {
         type: Date,

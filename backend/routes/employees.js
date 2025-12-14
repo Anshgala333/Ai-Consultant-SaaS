@@ -23,12 +23,21 @@ router.post('/', protect, [
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { email, name } = req.body;
+        const { email, name, outletId, role } = req.body;
 
         // Check if employee exists
         const existingEmployee = await Employee.findOne({ email });
         if (existingEmployee) {
             return res.status(400).json({ message: 'Employee with this email already exists' });
+        }
+
+        // If outletId provided, verify it belongs to this business
+        if (outletId) {
+            const { Outlet } = require('../models');
+            const outlet = await Outlet.findOne({ _id: outletId, business: req.business._id });
+            if (!outlet) {
+                return res.status(400).json({ message: 'Invalid outlet selected' });
+            }
         }
 
         // Generate password
@@ -39,15 +48,26 @@ router.post('/', protect, [
             email,
             name,
             password: plainPassword,
-            businessId: req.business._id
+            businessId: req.business._id,
+            outletId: outletId || undefined,
+            role: role || 'employee',
+            firstLoginCompleted: false,
+            requirePasswordChange: true
         });
+
+        // Populate outlet info for response
+        const populatedEmployee = await Employee.findById(employee._id)
+            .populate('outletId', 'name')
+            .select('-password');
 
         // Return employee with plain password (only shown once)
         res.status(201).json({
-            _id: employee._id,
-            email: employee.email,
-            name: employee.name,
-            isActive: employee.isActive,
+            _id: populatedEmployee._id,
+            email: populatedEmployee.email,
+            name: populatedEmployee.name,
+            outletId: populatedEmployee.outletId,
+            role: populatedEmployee.role,
+            isActive: populatedEmployee.isActive,
             generatedPassword: plainPassword // Only returned on creation
         });
     } catch (error) {
@@ -63,6 +83,7 @@ router.get('/', protect, async (req, res) => {
     try {
         const employees = await Employee.find({ businessId: req.business._id })
             .select('-password')
+            .populate('outletId', 'name')
             .sort({ createdAt: -1 });
 
         res.json(employees);

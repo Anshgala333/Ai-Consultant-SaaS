@@ -8,6 +8,7 @@ const StaffLog = require('./StaffLog');
 const Recommendation = require('./Recommendation');
 const Experiment = require('./Experiment');
 const Employee = require('./Employee');
+const FormFieldConfig = require('./FormFieldConfig');
 
 module.exports = {
     Business,
@@ -19,5 +20,6 @@ module.exports = {
     StaffLog,
     Recommendation,
     Experiment,
-    Employee
+    Employee,
+    FormFieldConfig
 };

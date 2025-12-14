@@ -15,16 +15,15 @@ const protect = async (req, res, next) => {
                 return res.status(401).json({ message: 'Business not found' });
             }
 
-            next();
+            return next(); // ADDED return
         } catch (error) {
             console.error('Auth error:', error.message);
-            res.status(401).json({ message: 'Not authorized, token failed' });
+            return res.status(401).json({ message: 'Not authorized, token failed' }); // ADDED return
         }
     }
 
-    if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' });
-    }
+    // Only reaches here if no Authorization header
+    return res.status(401).json({ message: 'Not authorized, no token' });
 };
 
 // Protect employee routes - require employee authentication
@@ -51,16 +50,15 @@ const protectEmployee = async (req, res, next) => {
                 return res.status(401).json({ message: 'Employee account is deactivated' });
             }
 
-            next();
+            return next(); // ADDED return
         } catch (error) {
             console.error('Employee auth error:', error.message);
-            res.status(401).json({ message: 'Not authorized, token failed' });
+            return res.status(401).json({ message: 'Not authorized, token failed' }); // ADDED return
         }
     }
 
-    if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' });
-    }
+    // Only reaches here if no Authorization header
+    return res.status(401).json({ message: 'Not authorized, no token' });
 };
 
 // Admin only middleware
