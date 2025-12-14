@@ -142,7 +142,9 @@ export const employeeAPI = {
     reactivate: (id) => api.put(`/employees/${id}/reactivate`),
     // Employee auth endpoints
     login: (data) => api.post('/auth/employee-login', data),
-    getProfile: () => api.get('/auth/employee/me')
+    getProfile: () => api.get('/auth/employee/me'),
+    // Employee-specific data endpoints
+    getOutlets: () => api.get('/employees/outlets')
 };
 
 export default api;

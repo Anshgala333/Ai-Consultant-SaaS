@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
-const { Employee, Business } = require('../models');
-const { protect } = require('../middleware/auth');
+const { Employee, Business, Outlet } = require('../models');
+const { protect, protectEmployee } = require('../middleware/auth');
 
 // Generate random password
 const generatePassword = () => {
@@ -116,6 +116,19 @@ router.put('/:id/reactivate', protect, async (req, res) => {
         res.json({ message: 'Employee reactivated successfully' });
     } catch (error) {
         console.error('Reactivate employee error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @route   GET /api/employees/outlets
+// @desc    Get outlets for the employee's business
+// @access  Private (Employee)
+router.get('/outlets', protectEmployee, async (req, res) => {
+    try {
+        const outlets = await Outlet.find({ business: req.employee.businessId._id });
+        res.json({ outlets });
+    } catch (error) {
+        console.error('Get employee outlets error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });

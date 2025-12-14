@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { businessAPI, feedbackAPI } from '../api';
+import { businessAPI, feedbackAPI, employeeAPI } from '../api';
+import { useAuth } from '../context/AuthContext';
 import { MapPin, QrCode, Plus, Download, Copy, Trash2, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Outlets = () => {
+    const { isEmployee } = useAuth();
     const [loading, setLoading] = useState(true);
     const [outlets, setOutlets] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -16,7 +18,10 @@ const Outlets = () => {
 
     const fetchOutlets = async () => {
         try {
-            const response = await businessAPI.getProfile();
+            // Use appropriate API based on user type
+            const response = isEmployee
+                ? await employeeAPI.getOutlets()
+                : await businessAPI.getProfile();
             setOutlets(response.data?.outlets || []);
         } catch (error) {
             console.error('Error:', error);
